@@ -9,8 +9,9 @@ To get started with PAT 1.0, first download the code. You can do this either as 
 
 ```bash
 git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
-**Install Dependencies:**
+## Install Dependencies:
 After cloning the repository, install the required dependencies. For Linux users, use the following commands:
+```bash
 cd PAT-Pipeline-for-Analysis-of-Periderm
 conda env create -f environment.yml
 ## Using the Tool
