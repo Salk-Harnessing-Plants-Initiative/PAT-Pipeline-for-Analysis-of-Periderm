@@ -23,9 +23,21 @@ conda activate PAT-Pipeline-for-Analysis-of-Periderm
 ```
 This will download and set up all the necessary libraries, including a Python 3.8 installation.
 
-##Using the Tool
+## Using the Tool
 
-Please make sure to update tests as appropriate.
+The majority of users will want to run PAT 1.0 on new images, in which case all the code you need is in the XXX folder. You can find more instructions in the inference README.We developed a GUI as following which you can run through:
+```bash
+python PAT_GUI.py
+```
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/PAT_GUI.png)
+
+You could load images in tif, png, jpeg formats. After loading images, you can run Pre-process
+
+## Training new models
+Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
+
+## Contact
+PAT 1.0 is published in Plant Phenomics. For enquiries please contact wbusch@salk.edu, gvillarino@salk.edu, linzhang@salk.edu.
 
 ## License
 
