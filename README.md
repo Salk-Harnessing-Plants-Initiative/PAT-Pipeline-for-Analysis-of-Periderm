@@ -14,22 +14,41 @@ After cloning the repository, install the required dependencies. For Linux users
 ```bash
 cd PAT-Pipeline-for-Analysis-of-Periderm
 conda env create -f environment.yml
-## Using the Tool
+# Foobar
 
-For most users looking to run PAT 1.0 on new images, all the required code is in the `XXX` folder. Detailed instructions are available in the inference README within that folder.
+Foobar is a Python library for dealing with word pluralization.
 
-## Training New Models
+## Installation
 
-To train new models, refer to the `training` folder. Instructions for model training are provided in the training README. If you're interested in collaboration on new model development for RootNav 2.0, please contact us.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
-## Contact
+```bash
+pip install foobar
+```
 
-For any inquiries about PAT 1.0, which is published in Plant Phenomics, please reach out to:
-- Email: wbusch@salk.edu
-- Email: gvillarino@salk.edu
-- Email: linzhang@salk.edu
+## Usage
 
-## References
+```python
+import foobar
 
-(Include any necessary references or citations here)
+# returns 'words'
+foobar.pluralize('word')
+
+# returns 'geese'
+foobar.pluralize('goose')
+
+# returns 'phenomenon'
+foobar.singularize('phenomena')
+```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
 
