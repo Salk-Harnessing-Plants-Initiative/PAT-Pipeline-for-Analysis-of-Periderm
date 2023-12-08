@@ -14,6 +14,11 @@ base_path = os.path.dirname(os.path.dirname(__file__))
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        # Create output and nature_accession folders
+        output_path = os.path.join(base_path, 'output')
+        nature_accession_path = os.path.join(base_path, 'nature_accession')
+        os.makedirs(output_path, exist_ok=True)
+        os.makedirs(nature_accession_path, exist_ok=True)
 
         self.loaded_images = 0
         self.setWindowTitle("PAT Pipeline for Analysis of Periderm")
