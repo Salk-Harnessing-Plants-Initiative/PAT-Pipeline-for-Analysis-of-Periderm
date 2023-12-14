@@ -41,7 +41,7 @@ And then, you could click Segment button to segment whole roots and periderm onl
 Then, you could click "Quality Control" button to do post-procession which can fill the gaps (the gaps were caused by dark or blur) based on the context information from both sides. 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/post_processing.png)
 
-We designed a Qulity Control GUI which you could use to quickly select high quality segmentation results. In order to make easy to visualize and compare the segmentation results, especially junction parts between periderm and endodermis, original images and corresponding segmentated images of junction parts between periderm and endodermis are vertically concatenated and images for QC are saved in output/for_QC. <strong><em>Since it takes time to generate concatenated images for QC, please be patient and wait for the QC GUI to show up.</em></strong>
+We designed a Qulity Control GUI which you could use to quickly select high quality segmentation results. In order to make easy to visualize and compare the segmentation results, especially junction parts between periderm and endodermis, original images and corresponding segmentated images of junction parts between periderm and endodermis are vertically concatenated and images for QC are saved in output/for_QC. <strong><em>Since it takes time to generate concatenated images for QC, please be patient and wait for the QC GUI to show up. :hourglass_flowing_sand:</em></strong>
 
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc1.png)
