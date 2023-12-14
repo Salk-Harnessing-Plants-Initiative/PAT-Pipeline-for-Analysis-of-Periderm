@@ -47,6 +47,10 @@ We designed a Qulity Control GUI which you could use to quickly select high qual
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc1.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc2.png)
 
+In QC GUI, you could click left arrow to previous image or right arrow to next image; when segmentation pass the QC, please click Select buton on GUI. Selected the images which pass QC will be saved in "selected_image_names.txt". 
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc_window_3.png)
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/QC_output.png)
+
 
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
