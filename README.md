@@ -33,6 +33,7 @@ python PAT_GUI.py
 
 You could load images in tif, png, xpm, jpg, bmp formats. After loading images, you can run Pre-process to convert images to png format. If the images you loaded are in png format, you could skip Pre-process step. 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/loading.png)
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/loading_folders.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/pre_processing.png)
 
 And then, you could click Segment button to segment whole roots and periderm only. 
@@ -51,7 +52,18 @@ In QC GUI, you could click left arrow to previous image or right arrow to next i
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc_window_3.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/QC_output.png)
 
-When you click Phenotyping button, 
+When you click Phenotyping button, a popup window will ask if you want to measure the whole root length: if you choose Yes, the both whole root lengths and periderm lengths will be measured and save to "whole_root_length.csv" (<strong><em>It will take time to measure the whole root lengths. :hourglass_flowing_sand:</em></strong>); If you choose No, only periderm lengths will be measured and save to "periderm_length.csv". 
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/whole_root_measure.png)
+
+After Phenotyping, a popup window will ask if you want to save phenotyping data after QC: if choose Yes, "periderm_length_after_QC.csv" will be generated. 
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/if_save_QC.png)
+
+When Phenotyping done, you could click Visualization button to get a quick view the the periderm and/or whole root lengths in boxplot. 
+
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/boxplot.png)
+
+When you done and try to close the GUI, 
+
 
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
