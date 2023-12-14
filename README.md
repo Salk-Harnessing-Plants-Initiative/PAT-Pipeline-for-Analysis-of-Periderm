@@ -29,7 +29,7 @@ The majority of users will want to run PAT 1.0 on new images, in which case all 
 ```bash
 python PAT_GUI.py
 ```
-![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/PAT_GUI.png)
+![PAT GUI]([https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/PAT_GUI.png](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png))
 
 You could load images in tif, png, jpeg formats. After loading images, you can run Pre-process
 
