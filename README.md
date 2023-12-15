@@ -29,6 +29,8 @@ The majority of users will want to run PAT 1.0 on new images, in which case all 
 ```bash
 python PAT_GUI.py
 ```
+Please downloaed pre-trained models and smaple images from the following link: check out [here for models and sample images]([https://drive.google.com/your_shared_link](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing)).
+
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
 
 You could load images in tif, png, xpm, jpg, bmp formats. After loading images, you can run Pre-process to convert images to png format. If the images you loaded are in png format, you could skip Pre-process step. 
