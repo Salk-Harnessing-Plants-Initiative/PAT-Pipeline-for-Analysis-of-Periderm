@@ -29,7 +29,7 @@ The majority of users will want to run PAT 1.0 on new images, in which case all 
 ```bash
 python PAT_GUI.py
 ```
-Please downloaed pre-trained models and smaple images from the following link: check out [here for models and sample images](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing).
+Please downloaed pre-trained models and smaple images from the following link: check out [click here to download models and sample images](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing). Please put models folder in PAT-Pipeline-for-Analysis-of-Periderm folder.
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
 
