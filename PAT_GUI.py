@@ -10,7 +10,8 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 from tkinter import Tk, messagebox
 
-base_path = os.path.dirname(os.path.dirname(__file__))
+#base_path = os.path.dirname(os.path.dirname(__file__))
+base_path = os.path.dirname(__file__)
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
