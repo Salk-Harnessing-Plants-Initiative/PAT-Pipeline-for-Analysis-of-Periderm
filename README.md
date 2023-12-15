@@ -13,6 +13,8 @@ git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-
 After cloning the repository, install the required dependencies. For Linux users, use the following commands:
 ```bash
 cd PAT-Pipeline-for-Analysis-of-Periderm
+```
+```bash
 conda env create -f environment.yml
 ```
 For users on other operating systems, we recommend using Anaconda due to the complexity of library support. Install Anaconda and then create a new environment using the provided yml dependencies file:
@@ -23,7 +25,7 @@ conda activate PAT-Pipeline-for-Analysis-of-Periderm
 ```
 This will download and set up all the necessary libraries, including a Python 3.8 installation.
 
-## Using the Tool
+## Using the Tool in Ubuntu (Recommend)
 
 The majority of users will want to run PAT 1.0 on new images, in which case all the code you need is in the XXX folder. You can find more instructions in the inference README.We developed a GUI as following which you can run through:
 ```bash
@@ -67,6 +69,22 @@ When Phenotyping done, you could click Visualization button to get a quick view 
 When you done and try to close the GUI, you will be asked if you want exit PAT, delete temporary folders, save results to new folder. 
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/save_results.png)
+
+## Using the Tool in Mac (Not Recommend since slow in Segmentation step! It is OK if you would like to try the pipeline for few images)
+
+```bash
+git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
+```
+```bash
+cd PAT-Pipeline-for-Analysis-of-Periderm
+```
+```bash
+conda env create -f environment_mac.yml
+```
+```bash
+python PAT_GUI_mac_cpu.py
+```
+Then you could follow the steps as shown above.
 
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
