@@ -25,7 +25,9 @@ conda activate PAT-Pipeline-for-Analysis-of-Periderm
 ```
 This will download and set up all the necessary libraries, including a Python 3.8 installation.
 
-## Using the Tool in Ubuntu (Recommend)
+<strong><em>If environment.yml doesn't include all libraries you need, please use "pip install XXXX" to install them or contact me.</em></strong>
+
+## Using the Tool in Ubuntu (Recommend with NVIDIA GPU with memory => 6GB)
 
 The majority of users will want to run PAT 1.0 on new images, in which case all the code you need is in the XXX folder. You can find more instructions in the inference README.We developed a GUI as following which you can run through:
 ```bash
