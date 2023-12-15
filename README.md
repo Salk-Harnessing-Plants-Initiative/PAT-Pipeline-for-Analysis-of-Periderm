@@ -62,8 +62,9 @@ When Phenotyping done, you could click Visualization button to get a quick view 
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/boxplot.png)
 
-When you done and try to close the GUI, 
+When you done and try to close the GUI, you will be asked if you want exit PAT, delete temporary folders, save results to new folder. 
 
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/save_results.png)
 
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
