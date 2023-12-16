@@ -302,7 +302,7 @@ class MainWindow(QMainWindow):
         }
 
         # Run the script as a subprocess
-        process = subprocess.Popen(["python", os.path.join(os.path.dirname(__file__),'src', "segmentation_patch_cor.py")], stdout=subprocess.PIPE, text=True)
+        process = subprocess.Popen(["python", os.path.join(os.path.dirname(__file__),'src', "segmentation_patch_cor_mac.py")], stdout=subprocess.PIPE, text=True)
 
 
         # Poll process for new output and update progress bar
@@ -337,10 +337,12 @@ class MainWindow(QMainWindow):
         self.progress_bars[4].setValue(100)
 
     def phenotyping(self):
-        # base_path should be defined or passed as a parameter to this method
+        app = QApplication(sys.argv)  # Initialize a QApplication
+
+        #base_path = 'your_base_path'  # Define your base path here
         segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'phenotyping.png')
         self.display_image(segmentation_image_path)
-    
+
         # Ask the user if they want to measure the whole root length
         response = QMessageBox.question(None, "Measure Whole Root Length", 
                                         "Do you want to measure the whole root length?", 
@@ -348,7 +350,6 @@ class MainWindow(QMainWindow):
         
         # Run the periderm measurement script
         self.run_script(os.path.join(os.path.dirname(__file__), 'src', "measurement_resize_periderm.py"))
-
 
         # If measuring whole root length, set progress to 50% after periderm measurement
         if response == QMessageBox.Yes:
@@ -413,7 +414,7 @@ class MainWindow(QMainWindow):
                 if response == QMessageBox.Yes:
                     self.run_script(os.path.join(os.path.dirname(__file__), 'src', "boxplot_whole_root.py"))
 
-        sys.exit(app.exec_())  # Properly exit the application
+        #sys.exit(app.exec_())  # Properly exit the application
 
 
 
