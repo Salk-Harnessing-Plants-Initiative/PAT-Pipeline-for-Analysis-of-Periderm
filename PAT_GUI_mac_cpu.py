@@ -100,7 +100,7 @@ class MainWindow(QMainWindow):
                     "Image_Padding", "Prediction_patch", "Image_Crop",
                     "Segmentation_temp", "Segmentation_upp_v15",
                     "segmentation_upp_periderm_v04", "seg_QC", "Seg_pad", "Ori_pad",
-                    "nature_accession"  # Add the "nature_accession" folder to the list
+                    "nature_accession" ,"WB_whole_root" # Add the "nature_accession" folder to the list
                 ]
     
                 for folder in folders_to_delete:
@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
         self.progress_bars[4].setValue(100)
 
     def phenotyping(self):
-        app = QApplication(sys.argv)  # Initialize a QApplication
+        #app = QApplication(sys.argv)  # Initialize a QApplication
 
         #base_path = 'your_base_path'  # Define your base path here
         segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'phenotyping.png')
@@ -392,7 +392,7 @@ class MainWindow(QMainWindow):
 
     
     def Visualization(self):
-        app = QApplication(sys.argv)  # Initialize a QApplication
+        #app = QApplication(sys.argv)  # Initialize a QApplication
 
         output_folder = os.path.join(os.path.dirname(__file__), 'output')
         periderm_file = os.path.join(output_folder, "periderm_length.csv")
