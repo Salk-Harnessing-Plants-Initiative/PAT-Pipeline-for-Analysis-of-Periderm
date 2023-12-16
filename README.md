@@ -73,7 +73,7 @@ When you done and try to close the GUI, you will be asked if you want exit PAT, 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/save_results.png)
 
 ## Using the Tool in Mac (Not Recommend since slow in Segmentation step! It is OK if you would like to try the pipeline for few images)
-
+As of last update in 2023, using CUDA for deep learning on a Mac can be challenging due to hardware and software compatibility issues: 1) Apple has not included NVIDIA GPUs in its Mac lineup for several years; 2) Macs don't come with NVIDIA GPUs, they cannot natively support CUDA;3) The last version of macOS to support CUDA was macOS Mojave (10.14). NVIDIA has not released CUDA drivers for macOS versions beyond Mojave. So CPU need to be used if you want to run PAT in Mac. 
 ```bash
 git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
 ```
