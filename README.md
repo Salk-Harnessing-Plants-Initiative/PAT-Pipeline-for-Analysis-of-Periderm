@@ -104,9 +104,7 @@ conda env create -f environment_win.yml
 ```bash
 conda activate PAT_win
 ```
-```bash
-conda activate PAT_win
-```
+
 ```bash
 python PAT_GUI_win_cpu.py
 ```
