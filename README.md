@@ -9,25 +9,21 @@ This section explains the data structure used in Project XYZ...
 Here's an overview of the top-level data structure in PAT:
 
 ```plaintext
-├── assets
-│   ├── code.jpeg
-│   └── css
-│       └── main.css
-├── components
-│   ├── article
-│   │   └── contentCard.vue
-│   ├── button
-│   │   └── outline.vue
-│   └── chips.vue
-├── layouts
-│   ├── navbar.vue
-│   └── default.vue
-├── nuxt.config.ts
-├── package.json
-├── package-lock.json
+├── resources
+│   ├── images
+│   └── readme  
+├── src
+│   ├── scripts
+├── models
+│   ├── pre-trained models
+│   └── class data
+├── PAT_GUI.py
+├── PAT_GUI_mac_cpu.py
+├── PAT_GUI_win_cpu.py
 ├── README.md
-├── tailwind.config.js
-└── tsconfig.json
+├── environment.yml
+├── environment_mac.yml 
+└── environment_mac.yml
 
 
 ## Installing PAT 1.0
