@@ -24,6 +24,7 @@ import segmentation_models_pytorch.utils
 #! pip install opencv-python
 #!pip install -q -U segmentation-models-pytorch albumentations > /dev/null
 import segmentation_models_pytorch as smp
+import gc
 
 script_dir = os.path.dirname(__file__)
 
@@ -692,6 +693,9 @@ def stitch_crop_images(patch_size, overlap_size, original_image_path, image_path
                     
         name_stitch = stitch_path+name+".png"
         cv2.imwrite(name_stitch, im_stitch)
+        # Clear memory       
+        del im_stitch
+        gc.collect()  # Explicitly invoke garbage collector
 
 #%%
 #original_image_path = "./Images_all/"    
