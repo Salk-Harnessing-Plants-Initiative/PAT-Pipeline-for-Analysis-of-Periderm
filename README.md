@@ -4,10 +4,31 @@
 Welcome to the PAT 1.0 repository. This README and the repository code are continuously being updated as we prepare for publication. Please check back regularly for new features and documentation!
 This section explains the data structure used in Project XYZ...
 
-## Folder Structure
-- `/data` - Main data directory...
-  - `/raw` - Contains raw data...
-  - `/processed` - Processed data files...
+## Data Structure in PAT
+
+This project follows the standard structure for a Vue.js application with Nuxt.js. Here's an overview of the top-level structure:
+
+```plaintext
+├── assets
+│   ├── code.jpeg
+│   └── css
+│       └── main.css
+├── components
+│   ├── article
+│   │   └── contentCard.vue
+│   ├── button
+│   │   └── outline.vue
+│   └── chips.vue
+├── layouts
+│   ├── navbar.vue
+│   └── default.vue
+├── nuxt.config.ts
+├── package.json
+├── package-lock.json
+├── README.md
+├── tailwind.config.js
+└── tsconfig.json
+
 
 ## Installing PAT 1.0
 
