@@ -1,0 +1,53 @@
+# To install: conda env create -f environment.yml
+#
+# To check that it's working: python -c "import torch; print(torch.cuda.is_available())"
+#
+# Ref: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md
+name: PAT_win
+
+channels:
+  - nvidia           # Provides CUDA-related packages
+  - conda-forge      # Community-led collection of recipes, build infrastructure, and distributions
+  - defaults         # Default channel for Anaconda packages
+  - pytorch          # For PyTorch and related packages
+  - fvcore           # (optional) If specific packages from fvcore are needed
+  - iopath           # (optional) If specific packages from iopath are needed
+  - pytorch3d        # (optional) If specific packages from pytorch3d are needed
+
+dependencies:
+  - python=3.8                 # Specify Python version
+  - ipykernel                  # IPython kernel for Jupyter
+  # Install CUDA libs + ptxas compiler from the NVIDIA channel
+  # This will accelerate the compilation of kernels for your specific card
+  - cudatoolkit=11.3           # Specify CUDA toolkit version
+  - cudnn=8.2                  # Specify cuDNN version
+  - cuda-nvcc                  # NVIDIA CUDA Compiler
+  - pytorch::pytorch=1.11.0    # Specific version of PyTorch
+  - pytorch::torchvision       # torchvision for PyTorch
+  - pytorch::torchaudio        # torchaudio for PyTorch
+  # For Windows, pytorch3d should be installed via pip
+  - ffmpeg                     # Multimedia framework
+  - nodejs                     # JavaScript runtime
+  - pip                        # Pip package
+  - pip:                       # Pip dependencies
+    - matplotlib               # Plotting library
+    - pandas                   # Data manipulation library
+    - seaborn                  # Statistical data visualization
+    - ipywidgets               # Interactive widgets for Jupyter notebooks
+    - rich                     # Text formatting for Python
+    - scikit-learn             # Machine learning library
+    - albumentations           # Fast image augmentation library
+    - opencv-python-headless   # OpenCV package (headless, without GUI functionality)
+    - segmentation_models_pytorch # PyTorch segmentation models
+    - opencv-python            # OpenCV package
+    # Add pytorch3d after all conda packages are listed
+    - pytorch3d==0.7.0         # Specific version of pytorch3d
+    - fil_finder               # Library for astrophysical data analysis
+    - PyQt5
+    - pandas
+    - tqdm
+    - seaborn
+    - torch
+    - albumentations
+    - segmentation_models_pytorch
+
