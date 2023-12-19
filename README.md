@@ -90,7 +90,25 @@ Then you could follow the steps as shown above.
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/PAT_Mac.png)
 
 ## Using the Tool in Windows 
-![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/coming_soon.png)
+You can use Command Prompt in Windows, and then please use python 3.8 through installing in Microsoft Store.
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/win_python38.png)
+```bash
+git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
+```
+```bash
+cd PAT-Pipeline-for-Analysis-of-Periderm
+```
+```bash
+conda env create -f environment_win.yml
+```
+```bash
+conda activate PAT_win
+```
+```bash
+python PAT_GUI_win_cpu.py
+```
+
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/PAT_win.png)
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
 
