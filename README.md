@@ -6,7 +6,7 @@ This section explains the data structure used in Project XYZ...
 
 ## Data Structure in PAT
 
-This project follows the standard structure for a Vue.js application with Nuxt.js. Here's an overview of the top-level structure:
+Here's an overview of the top-level data structure in PAT:
 
 ```plaintext
 ├── assets
