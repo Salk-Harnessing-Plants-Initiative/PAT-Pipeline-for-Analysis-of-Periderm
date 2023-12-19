@@ -25,6 +25,7 @@ Here's an overview of the top-level data structure in PAT:
 ├── environment_mac.yml 
 └── environment_mac.yml
 
+```
 
 ## Installing PAT 1.0
 
