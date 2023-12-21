@@ -38,15 +38,23 @@ After cloning the repository, install the required dependencies. For Linux users
 ```bash
 cd PAT-Pipeline-for-Analysis-of-Periderm
 ```
-```bash
-conda env create -f environment.yml
-```
+
 For users on other operating systems, we recommend using Anaconda due to the complexity of library support. Install Anaconda and then create a new environment using the provided yml dependencies file:
 
 ```bash
 conda env create -f environment.yml
+```
+
+For windows users, please create the environment using the following command:
+```bash
+conda env create -f environment_win.yml
+```
+
+Activate the environment using the following command:
+```bash
 conda activate PAT-Pipeline-for-Analysis-of-Periderm
 ```
+
 This will download and set up all the necessary libraries, including a Python 3.8 installation.
 
 <strong><em>If environment.yml doesn't include all libraries you need, please use "pip install XXXX" to install them or contact me.</em></strong>
@@ -57,6 +65,12 @@ The majority of users will want to run PAT 1.0 on new images, in which case all 
 ```bash
 python PAT_GUI.py
 ```
+
+For windows user, please use the following script to start the PAT GUI:
+```bash
+python PAT_GUI_win_cpu.py
+```
+
 Please downloaed pre-trained models and smaple images from the following link: check out [click here to download models and sample images](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing). Please put models folder in PAT-Pipeline-for-Analysis-of-Periderm folder.
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
@@ -77,6 +91,8 @@ We designed a Qulity Control GUI which you could use to quickly select high qual
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc1.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc2.png)
+
+Please select `./output/for_QC` folder as QC input folder.
 
 In QC GUI, you could click left arrow to previous image or right arrow to next image; when segmentation pass the QC, please click Select buton on GUI. Selected the images which pass QC will be saved in "selected_image_names.txt". 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc_window_3.png)
