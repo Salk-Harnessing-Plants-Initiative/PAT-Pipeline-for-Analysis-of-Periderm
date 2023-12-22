@@ -3,7 +3,7 @@
 # To check that it's working: python -c "import torch; print(torch.cuda.is_available())"
 #
 # Ref: https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md
-name: PAT_win
+name: PAT-Pipeline-for-Analysis-of-Periderm
 
 channels:
   - nvidia           # Provides CUDA-related packages
@@ -41,7 +41,7 @@ dependencies:
     - segmentation_models_pytorch # PyTorch segmentation models
     - opencv-python            # OpenCV package
     # Add pytorch3d after all conda packages are listed
-    - pytorch3d==0.7.0         # Specific version of pytorch3d
+    #- pytorch3d #==0.7.0         # Specific version of pytorch3d
     - fil_finder               # Library for astrophysical data analysis
     - PyQt5
     - pandas
