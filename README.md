@@ -2,7 +2,7 @@
 # PAT 1.0
 
 Welcome to the PAT 1.0 repository. This README and the repository code are continuously being updated as we prepare for publication. Please check back regularly for new features and documentation!
-This section explains the data structure used in Project XYZ...
+This section explains the data structure used in Salk HPI Project
 
 ## Data Structure in PAT
 
