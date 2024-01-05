@@ -71,9 +71,14 @@ For windows user, please use the following script to start the PAT GUI:
 python PAT_GUI_win_cpu.py
 ```
 
-**Please download pre-trained models and sample images from the following link:** [click here to download models and sample images](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing)
+<span style="color: red">
+    <strong>Please download pre-trained models and sample images from the following link:</strong> 
+    <a href="https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing">click here to download models and sample images</a>
+</span>
 
-**Please put the `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` folder.**
+<span style="color: red">
+    <strong>Please put the `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` folder.</strong>
+</span>
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
 
