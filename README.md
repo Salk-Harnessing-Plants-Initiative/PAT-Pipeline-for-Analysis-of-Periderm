@@ -80,6 +80,9 @@ python PAT_GUI_win_cpu.py
     <strong>Please put the `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` folder.</strong>
 </span>
 
+
+
+
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
 
 You could load images in tif, png, xpm, jpg, bmp formats. After loading images, you can run Pre-process to convert images to png format. If the images you loaded are in png format, you could skip Pre-process step. 
