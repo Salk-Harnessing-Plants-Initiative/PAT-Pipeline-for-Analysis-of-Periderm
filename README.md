@@ -49,6 +49,10 @@ For windows users, please create the environment using the following command:
 ```bash
 conda env create -f environment_win.yml
 ```
+For mac users, please create the environment using the following command:
+```bash
+conda env create -f environment_mac.yml
+```
 
 Activate the environment using the following command:
 ```bash
@@ -75,14 +79,15 @@ python PAT_GUI_win_cpu.py
     <strong>Please download pre-trained models and sample images from the following link:</strong> 
     <a href="https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing">click here to download models and sample images</a>
 </span>
-
+&nbsp;<br>
+&nbsp;<br>
 <span style="color: red">
     <strong>Please put the `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` folder.</strong>
 </span>
-
-
-
-
+&nbsp;<br>
+&nbsp;<br>
+&nbsp;<br>
+&nbsp;<br>
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
 
 You could load images in tif, png, xpm, jpg, bmp formats. After loading images, you can run Pre-process to convert images to png format. If the images you loaded are in png format, you could skip Pre-process step. 
