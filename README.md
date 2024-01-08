@@ -98,7 +98,7 @@ You could load images in tif, png, xpm, jpg, bmp formats. After loading images, 
 And then, you could click Segment button to segment whole roots and periderm only. 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/segmentation.png)
 
-Then, you could click "Quality Control" button to do post-procession which can fill the gaps (the gaps were caused by dark or blur) based on the context information from both sides. 
+Then, you could click "Quality Control" button to do post-procession which can fill the gaps (the gaps were caused by dark or blur) based on the context information from both sides. If you don't want to do any QC, you could skip this step and just simply go to Phenotyping.
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/post_processing.png)
 
 We designed a Qulity Control GUI which you could use to quickly select high quality segmentation results. In order to make easy to visualize and compare the segmentation results, especially junction parts between periderm and endodermis, original images and corresponding segmentated images of junction parts between periderm and endodermis are vertically concatenated and images for QC are saved in output/for_QC. <strong><em>Since it takes time to generate concatenated images for QC, please be patient and wait for the QC GUI to show up. :hourglass_flowing_sand:</em></strong>
@@ -109,12 +109,12 @@ We designed a Qulity Control GUI which you could use to quickly select high qual
 
 Please select `./output/for_QC` folder as QC input folder.
 
-In QC GUI, you could click left arrow to previous image or right arrow to next image; when segmentation pass the QC, please click Select buton on GUI. Selected the images which pass QC will be saved in "selected_image_names.txt". 
-![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc_window_3.png)
+In QC GUI, you could click left arrow to previous image or right arrow to next image; when segmentation pass the QC, please click Select buton on GUI. In case you want to un-select the image, you could go to the image which you don't want to select and click Not-Select button. Selected the images which pass QC will be saved in "selected_image_names.txt". 
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc3.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/QC_output.png)
 
-When you click Phenotyping button, a popup window will ask if you want to measure the whole root length: if you choose Yes, the both whole root lengths and periderm lengths will be measured and save to "whole_root_length.csv" (<strong><em>It will take time to measure the whole root lengths. :hourglass_flowing_sand:</em></strong>); If you choose No, only periderm lengths will be measured and save to "periderm_length.csv". 
-![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/whole_root_measure.png)
+When you click Phenotyping button, a popup window will ask if you want to measure the whole root length: if you choose Yes, the both whole root lengths and periderm lengths will be measured and save to "whole_root_length.csv" (<strong><em>It will take time to measure the whole root lengths when you don't want to calculate length quickly due to high-resolution images. :hourglass_flowing_sand:</em></strong>); I included option which you could select "calculate length quickly" through measuring in re-sized images and measurements between high-res and low-res were not significant different, so I recommend to select "calculate length quickly" except you want to get very accurate measurement. If you choose No to "Do you want to measure the whole root length?", only periderm lengths will be measured and save to "periderm_length.csv". Also, you could convert the length in the number of pixels to micrometer based on your own pxiel/micrometer ratio (e.g. our pixel/micrometer ratio is 0.5299 as default).
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/phenotyping_options.png)
 
 After Phenotyping, a popup window will ask if you want to save phenotyping data after QC: if choose Yes, "periderm_length_after_QC.csv" will be generated. 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/if_save_QC.png)
@@ -128,7 +128,7 @@ When you done and try to close the GUI, you will be asked if you want exit PAT, 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/save_results.png)
 
 ## Using the Tool in Mac (Not Recommend since slow in Segmentation step! It is OK if you would like to try the pipeline for few images)
-As of last update in 2023, using CUDA for deep learning on a Mac can be challenging due to hardware and software compatibility issues: 1) Apple has not included NVIDIA GPUs in its Mac lineup for several years; 2) Macs don't come with NVIDIA GPUs, they cannot natively support CUDA;3) The last version of macOS to support CUDA was macOS Mojave (10.14). NVIDIA has not released CUDA drivers for macOS versions beyond Mojave. So CPU need to be used if you want to run PAT in Mac. 
+As of last update in 2023, using CUDA for deep learning on a Mac can be challenging due to hardware and software compatibility issues: 1) Apple has not included NVIDIA GPUs in its Mac lineup for several years; 2) Macs don't come with NVIDIA GPUs, they cannot natively support CUDA;3) The last version of macOS to support CUDA was macOS Mojave (10.14). NVIDIA has not released CUDA drivers for macOS versions beyond Mojave. So CPU need to be used if you want to run PAT in Mac. (When I used Ubuntu in my laptop (i7-11800H, NVIDIA RTX A4000 GPU), it took ~ 14 minutes to finish analysis of four images and took 5 minutes to segment; When I used CPU (9th gen 6-core Intel Core i9 2.3 GHz), it took ~ 58 minutes.)
 ```bash
 git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
 ```
@@ -151,6 +151,7 @@ You can use Command Prompt in Windows as shown in following, and then please use
 ```
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/win_python38.png)
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/win_begin.png)
 ```bash
 git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
 ```
