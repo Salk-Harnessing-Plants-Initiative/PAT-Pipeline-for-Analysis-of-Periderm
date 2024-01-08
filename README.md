@@ -138,6 +138,10 @@ cd PAT-Pipeline-for-Analysis-of-Periderm
 ```bash
 conda env create -f environment_mac.yml
 ```
+Activate the environment using the following command:
+```bash
+conda activate PAT-Pipeline-for-Analysis-of-Periderm
+```
 ```bash
 python PAT_GUI_mac_cpu.py
 ```
@@ -161,8 +165,9 @@ cd PAT-Pipeline-for-Analysis-of-Periderm
 ```bash
 conda env create -f environment_win.yml
 ```
+Activate the environment using the following command:
 ```bash
-conda activate PAT_win
+conda activate PAT-Pipeline-for-Analysis-of-Periderm
 ```
 
 ```bash
