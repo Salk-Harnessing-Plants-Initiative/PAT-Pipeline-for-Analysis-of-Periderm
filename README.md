@@ -137,7 +137,8 @@ Then you could follow the steps as shown above.
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/PAT_Mac.png)
 
 ## Using the Tool in Windows 
-You can use Command Prompt in Windows, and then please use python 3.8 through installing in Microsoft Store.
+You can use Command Prompt in Windows as shown in following, and then please use python 3.8 through installing in Microsoft Store. Before using PAT, you could install conda [Visit Conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/windows.html "Go to conda Website")
+
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/win_python38.png)
 ```bash
 git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
