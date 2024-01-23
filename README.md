@@ -114,11 +114,12 @@ Then, you could click "Quality Control" button to do post-procession which can f
 
 We designed a Qulity Control GUI which you could use to quickly select high quality segmentation results. In order to make easy to visualize and compare the segmentation results, especially junction parts between periderm and endodermis, original images and corresponding segmentated images of junction parts between periderm and endodermis are vertically concatenated and images for QC are saved in output/for_QC. <strong><em>Since it takes time to generate concatenated images for QC, please be patient and wait for the QC GUI to show up. :hourglass_flowing_sand:</em></strong>
 
+<strong> Please use the right arrow key to navigate to the next image and the left arrow key to return to the previous image in the QC (Quality Control) GUI.<strong>
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc1.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc2.png)
 
-Please select `./output/for_QC` folder as QC input folder.
+$$\color{red} Please \space navigate \space to \space <strong>PAT-Pipeline-for-Analysis-of-periderm/output/for_QC<strong>.$$
 
 In QC GUI, you could click left arrow to previous image or right arrow to next image; when segmentation pass the QC, please click Select buton on GUI. In case you want to un-select the image, you could go to the image which you don't want to select and click Not-Select button. Selected the images which pass QC will be saved in "selected_image_names.txt". 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/qc3.png)
