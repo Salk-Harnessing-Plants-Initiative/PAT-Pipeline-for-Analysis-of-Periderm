@@ -84,13 +84,24 @@ python PAT_GUI_win_cpu.py
 <span style="color: red">
     <strong>Please put the `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` folder.</strong>
 </span>
+
 &nbsp;<br>
 &nbsp;<br>
+
+$$\color{red}Download \space models \space and \space sample \space images \space using \space the \space above \space link.$$
 &nbsp;<br>
+$$\color{red}Please \space put \space the \space downloaded \space models \space folder \space in \space the \space PAT-Pipeline-for-Analysis-of-Periderm \space folder.$$ 
+&nbsp;<br>
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/download_and_save.png)
+&nbsp;<br>
+&nbsp;<br>
+PAT GUI as following: 
 &nbsp;<br>
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/start.png)
-
+&nbsp;<br>
+&nbsp;<br>
 You could load images in tif, png, xpm, jpg, bmp formats. After loading images, you can run Pre-process to convert images to png format. If the images you loaded are in png format, you could skip Pre-process step. 
+
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/loading.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/loading_folders.png)
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/pre_processing.png)
