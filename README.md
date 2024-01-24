@@ -236,6 +236,9 @@ python PAT_GUI_win_cpu.py
 ```
 
 ![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/PAT_win.png)
+
+<strong> We developed new QC GUI for Windows with Previous button and Next button <strong>
+![PAT GUI](https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm/blob/main/resources/readme/new_QC_GUI_for_win.png)
 ## Training new models
 Training code may be found in the training folder. Instructions on training models are given in the training README. If you would like to collaborate on the development of new models for PAT 1.0, please contact us.
 
