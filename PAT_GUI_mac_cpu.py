@@ -123,9 +123,9 @@ class MainWindow(QMainWindow):
                     ]
     
                     files_to_move = [
-                        "periderm_length.csv", "periderm_length_micrometers.csv","selected_image_names.txt",
-                        "periderm_length_after_QC.csv", "periderm_length_after_QC_micrometers.csv",
-                        'whole_root_length.csv', "whole_root_length_micrometers.csv",'whole_root_length_boxplot.png', 'periderm_length_boxplot.png'
+                     "periderm_length_pixels.csv", "periderm_length_micrometers.csv","selected_image_names.txt",
+                     "periderm_length_after_QC_pixels.csv", "periderm_length_after_QC_micrometers.csv",
+                     'whole_root_length_pixels.csv', "whole_root_length_micrometers.csv",'whole_root_length_boxplot.png', 'periderm_length_boxplot.png'
                     ]
     
                     for folder in folders_to_move:
@@ -329,14 +329,29 @@ class MainWindow(QMainWindow):
         self.run_script(os.path.join(os.path.dirname(__file__), 'src',"new_post_processing_for_measurement.py"))
         self.progress_bars[3].setValue(100)
 
+
     def quality_control(self):
         segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'QC.png')
         self.display_image(segmentation_image_path)
         
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src',"generate_images_for_QC.py"))
+        # Create and display a modal QMessageBox
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setText("Please wait for generating images for QC! It takes a while.")
+        msg_box.setWindowTitle("Generating Images for QC")
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.setModal(True)  # Makes the message box modal
+        
+        # Display the modal message box and wait for it to close
+        msg_box.exec_()
+        
+        # Continue with the script after the message box is closed
+        self.run_script(os.path.join(os.path.dirname(__file__), 'src', "generate_images_for_QC.py"))
         self.progress_bars[4].setValue(50)
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src',"PAT_QC_GUI_test.py"))
+        
+        self.run_script(os.path.join(os.path.dirname(__file__), 'src', "PAT_QC_GUI_test.py"))
         self.progress_bars[4].setValue(100)
+
 
     def phenotyping(self):
         segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'phenotyping.png')
@@ -403,14 +418,14 @@ class MainWindow(QMainWindow):
     def convert_measurements(self, conversion_ratio):
         output_folder = os.path.join(base_path, 'output')
         # Specify the CSV files to check and convert
-        csv_files = ['periderm_length.csv', 'whole_root_length.csv', 'periderm_length_after_QC.csv']
+        csv_files = ['periderm_length_pixels.csv', 'whole_root_length_pixels.csv', 'periderm_length_after_QC_pixels.csv']
 
         for csv_file in csv_files:
             csv_path = os.path.join(output_folder, csv_file)
             if os.path.isfile(csv_path):
                 # Perform the conversion
                 converted_df = self.convert_csv_pixels_to_micrometers(csv_path, conversion_ratio)
-                converted_csv_path = os.path.join(output_folder, csv_file.replace('.csv', '_micrometers.csv'))
+                converted_csv_path = os.path.join(output_folder, csv_file.replace('_pixels.csv', '_micrometers.csv'))
                 converted_df.to_csv(converted_csv_path, index=False)
                 #QMessageBox.information(self, "Conversion Complete", f"Converted {csv_file} to micrometers.")
             else:
@@ -455,8 +470,8 @@ class MainWindow(QMainWindow):
         #app = QApplication(sys.argv)  # Initialize a QApplication
 
         output_folder = os.path.join(os.path.dirname(__file__), 'output')
-        periderm_file = os.path.join(output_folder, "periderm_length.csv")
-        whole_root_file = os.path.join(output_folder, "whole_root_length.csv")
+        periderm_file = os.path.join(output_folder, "periderm_length_pixels.csv")
+        whole_root_file = os.path.join(output_folder, "whole_root_length_pixels.csv")
 
         # Check if periderm_length.csv exists
         if os.path.exists(periderm_file):
