@@ -27,41 +27,90 @@ Here's an overview of the top-level data structure in PAT:
 
 ```
 
-## Installing PAT 1.0
 
-To get started with PAT 1.0, first download the code. You can do this either as a zip file from this page or by cloning the git repository (recommended):
+# Quick Start Guide for PAT 1.0
 
-```bash
-git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
-```
-After cloning the repository, install the required dependencies. For Linux users, use the following commands:
-```bash
-cd PAT-Pipeline-for-Analysis-of-Periderm
-```
+Welcome to the PAT (Pipeline for Analysis of Periderm) 1.0 Quick Start Guide. Follow these steps to get up and running with PAT on your system.
 
-For users on other operating systems, we recommend using Anaconda due to the complexity of library support. Install Anaconda and then create a new environment using the provided yml dependencies file:
+## Step 1: Installation
 
-```bash
-conda env create -f environment.yml
-```
+1. **Clone the repository:**
 
-For windows users, please create the environment using the following command:
-```bash
-conda env create -f environment_win.yml
-```
-For mac users, please create the environment using the following command:
-```bash
-conda env create -f environment_mac.yml
-```
+   For all systems, clone the PAT repository using Git:
+   ```bash
+   git clone https://github.com/Salk-Harnessing-Plants-Initiative/PAT-Pipeline-for-Analysis-of-Periderm.git
+   ```
+   Navigate to the cloned directory:
+   ```bash
+   cd PAT-Pipeline-for-Analysis-of-Periderm
+   ```
 
-Activate the environment using the following command:
-```bash
-conda activate PAT-Pipeline-for-Analysis-of-Periderm
-```
+2. **Create and activate the conda environment:**
+
+   For **Linux** and **Windows** users:
+   ```bash
+   conda env create -f environment.yml  # Use this for Linux
+   conda env create -f environment_win.yml  # Use this for Windows
+   conda activate PAT-Pipeline-for-Analysis-of-Periderm
+   ```
+   
+   For **Mac** users:
+   ```bash
+   conda env create -f environment_mac.yml
+   conda activate PAT-Pipeline-for-Analysis-of-Periderm
+   ```
+
+## Step 2: Download Models and Images
+
+- Download pre-trained models and sample images from the provided link:
+  [Download Models and Images](https://drive.google.com/drive/folders/13F_TSJNYKEM3DVrvaFU56FUzt8BJ9m7X?usp=sharing)
+  
+- Place the downloaded `models` folder in the `PAT-Pipeline-for-Analysis-of-Periderm` directory.
+
+## Step 3: Running PAT
+
+- **For Ubuntu (Recommended for NVIDIA GPU with at least 6GB memory):**
+  ```bash
+  python PAT_GUI.py
+  ```
+
+- **For Windows:**
+  ```bash
+  python PAT_GUI_win_cpu.py
+  ```
+
+- **For Mac (Not recommended for segmentation due to slower performance):**
+  ```bash
+  python PAT_GUI_mac_cpu.py
+  ```
+
+## Step 4: Using PAT
+
+1. Load your images into PAT GUI; the tool supports `.tif`, `.png`, `.xpm`, `.jpg`, and `.bmp` formats.
+
+2. Run the **Pre-process** to convert images to `.png` format if needed.
+
+3. Use the **Segment** button to perform image segmentation.
+
+4. Perform **Quality Control (QC)** by selecting high-quality segmentation results within the QC GUI.
+
+5. Navigate the QC images using the right and left arrow keys.
+
+6. Click **Phenotyping** to measure root lengths, with options for quick or detailed analysis.
+
+7. After Phenotyping, choose whether to save the QC data.
+
+8. Use the **Visualization** button for a quick view of the length measurements in a boxplot.
+
+9. Upon completion, you will be prompted to exit PAT, delete temporary folders, or save results to a new folder.
 
 This will download and set up all the necessary libraries, including a Python 3.8 installation.
 
 <strong><em>If environment.yml doesn't include all libraries you need, please use "pip install XXXX" to install them or contact me.</em></strong>
+
+&nbsp;<br>
+&nbsp;<br>
+<strong> The following contains details about how to run PAT 1.0. <strong>
 
 ## Using the Tool in Ubuntu (Recommend with NVIDIA GPU with memory => 6GB)
 
