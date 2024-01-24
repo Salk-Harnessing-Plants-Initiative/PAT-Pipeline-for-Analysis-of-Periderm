@@ -26,7 +26,7 @@ for image_name in selected_images:
     selected_roots[image_type].append(root_number)
 
 # Read the CSV file into a DataFrame
-df = pd.read_csv(os.path.join(main_dir, 'output','periderm_length.csv'))
+df = pd.read_csv(os.path.join(main_dir, 'output','periderm_length_pixels.csv'))
 
 # Create a new DataFrame to store the quality controlled data
 df_qc = df.copy()
@@ -42,7 +42,7 @@ for index, row in df_qc.iterrows():
             df_qc.at[index, col] = pd.NA
 
 # Save the processed DataFrame to a new CSV file
-output_csv_file_path = os.path.join(main_dir, 'output','periderm_length_after_QC.csv')
+output_csv_file_path = os.path.join(main_dir, 'output','periderm_length_after_QC_pixels.csv')
 df_qc.to_csv(output_csv_file_path, index=False)
 
 # The path to the new CSV file for download

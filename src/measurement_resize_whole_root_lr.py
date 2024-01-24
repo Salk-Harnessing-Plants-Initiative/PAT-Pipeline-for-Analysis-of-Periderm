@@ -62,7 +62,7 @@ def process_image(image_path):
 
 def main():
     input_folder = os.path.join(main_dir, 'output','WB_whole_root')  # Source folder for images
-    output_file = os.path.join(main_dir, 'output','whole_root_length.csv')  # CSV file for output
+    output_file = os.path.join(main_dir, 'output','whole_root_length_pixels.csv')  # CSV file for output
 
     image_skeleton_counts = []
     max_lengths = 0

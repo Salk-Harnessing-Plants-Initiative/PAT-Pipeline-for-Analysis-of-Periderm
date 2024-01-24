@@ -10,7 +10,7 @@ script_dir = os.path.dirname(__file__)
 main_dir = os.path.dirname(script_dir)
 
 # Path to the CSV file
-csv_file_path = os.path.join(main_dir, 'output','whole_root_length.csv')
+csv_file_path = os.path.join(main_dir, 'output','whole_root_length_pixels.csv')
 
 # Read the CSV file
 df = pd.read_csv(csv_file_path)

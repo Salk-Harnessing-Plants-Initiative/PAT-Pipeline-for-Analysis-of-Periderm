@@ -58,7 +58,7 @@ def main():
     start_time = time.time()
 
     input_folder = os.path.join(main_dir, 'output', 'measurement')
-    output_file = os.path.join(main_dir, 'output', 'periderm_length.csv')
+    output_file = os.path.join(main_dir, 'output', 'periderm_length_pixels.csv')
 
     max_roots = 0
     for image_name in sorted(os.listdir(input_folder)):

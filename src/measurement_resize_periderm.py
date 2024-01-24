@@ -46,7 +46,7 @@ def process_image(img):
 
 def main():
     input_folder = os.path.join(main_dir, 'output','measurement')  # Replace with your images folder path
-    output_file = os.path.join(main_dir, 'output','periderm_length.csv')
+    output_file = os.path.join(main_dir, 'output','periderm_length_pixels.csv')
     
     # First, determine the max number of roots
     max_roots = 0
