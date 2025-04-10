@@ -3,22 +3,34 @@ import os
 import cv2
 import shutil
 import subprocess
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QFileDialog, QLabel,
-                             QPushButton, QVBoxLayout, QHBoxLayout, QWidget,
-                             QProgressBar, QMessageBox,QInputDialog)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QFileDialog,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QHBoxLayout,
+    QWidget,
+    QProgressBar,
+    QMessageBox,
+    QInputDialog,
+)
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
 from tkinter import Tk, messagebox
 import pandas as pd
 
-#base_path = os.path.dirname(os.path.dirname(__file__))
+# base_path = os.path.dirname(os.path.dirname(__file__))
 base_path = os.path.dirname(__file__)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         # Create output and nature_accession folders
-        output_path = os.path.join(base_path, 'output')
-        nature_accession_path = os.path.join(base_path, 'nature_accession')
+        output_path = os.path.join(base_path, "output")
+        nature_accession_path = os.path.join(base_path, "nature_accession")
         os.makedirs(output_path, exist_ok=True)
         os.makedirs(nature_accession_path, exist_ok=True)
 
@@ -61,8 +73,7 @@ class MainWindow(QMainWindow):
         self.Visualization_button = QPushButton("Visualization")
         left_layout.addWidget(self.Visualization_button)
         self.Visualization_button.clicked.connect(self.Visualization)
-        
-        
+
         middle_layout = QVBoxLayout()
         main_layout.addLayout(middle_layout, stretch=3)
 
@@ -76,72 +87,107 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.image_label, stretch=2)
         self.image_label.setScaledContents(True)
 
-        periderm_image_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                  'resources', 'images','DALL_Periderm.png')
+        periderm_image_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "resources",
+            "images",
+            "DALL_Periderm.png",
+        )
         self.image = cv2.imread(periderm_image_path)
         self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
         self.image = self.resize_image(self.image)
         height, width, channel = self.image.shape
         bytes_per_line = 3 * width
-        q_image = QImage(self.image.data, width, height, bytes_per_line, QImage.Format_RGB888)
+        q_image = QImage(
+            self.image.data, width, height, bytes_per_line, QImage.Format_RGB888
+        )
         self.image_label.setPixmap(QPixmap.fromImage(q_image))
 
     def closeEvent(self, event):
-        exit_reply = QMessageBox.question(self, 'Exit Confirmation',
-                                          "Are you sure you want to exit PAT?",
-                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+        exit_reply = QMessageBox.question(
+            self,
+            "Exit Confirmation",
+            "Are you sure you want to exit PAT?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+
         if exit_reply == QMessageBox.Yes:
-            delete_reply = QMessageBox.question(self, 'Delete Temporary Folders',
-                                                "Would you like to delete temporary folders?",
-                                                QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+            delete_reply = QMessageBox.question(
+                self,
+                "Delete Temporary Folders",
+                "Would you like to delete temporary folders?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+
             if delete_reply == QMessageBox.Yes:
                 folders_to_delete = [
-                    "Image_Padding", "Prediction_patch", "Image_Crop",
-                    "Segmentation_temp", "Segmentation_upp_v15",
-                    "segmentation_upp_periderm_v04", "seg_QC", "Seg_pad", "Ori_pad",
-                    "nature_accession" ,"WB_whole_root" # Add the "nature_accession" folder to the list
+                    "Image_Padding",
+                    "Prediction_patch",
+                    "Image_Crop",
+                    "Segmentation_temp",
+                    "Segmentation_upp_v15",
+                    "segmentation_upp_periderm_v04",
+                    "seg_QC",
+                    "Seg_pad",
+                    "Ori_pad",
+                    "nature_accession",
+                    "WB_whole_root",  # Add the "nature_accession" folder to the list
                 ]
-    
+
                 for folder in folders_to_delete:
-                    folder_path = os.path.join(base_path, 'output', folder)
+                    folder_path = os.path.join(base_path, "output", folder)
                     if os.path.exists(folder_path):
                         shutil.rmtree(folder_path)
-    
-            save_reply = QMessageBox.question(self, 'Save Confirmation',
-                                              "Would you like to save and move result folders?",
-                                              QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+
+            save_reply = QMessageBox.question(
+                self,
+                "Save Confirmation",
+                "Would you like to save and move result folders?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+
             if save_reply == QMessageBox.Yes:
-                dest_folder_path = QFileDialog.getExistingDirectory(self, "Select Destination Folder", "")
-    
+                dest_folder_path = QFileDialog.getExistingDirectory(
+                    self, "Select Destination Folder", ""
+                )
+
                 if dest_folder_path:
                     folders_to_move = [
-                        "Post_processing_v09", "Final_Periderm_Segmentation_Results",
-                        "measurement", "for_QC"
+                        "Post_processing_v09",
+                        "Final_Periderm_Segmentation_Results",
+                        "measurement",
+                        "for_QC",
                     ]
-    
+
                     files_to_move = [
-                        "periderm_length_pixels.csv", "periderm_length_micrometers.csv","selected_image_names.txt",
-                        "periderm_length_after_QC_pixels.csv", "periderm_length_after_QC_micrometers.csv",
-                        'whole_root_length_pixels.csv', "whole_root_length_micrometers.csv",'whole_root_length_boxplot.png', 'periderm_length_boxplot.png'
+                        "periderm_length_pixels.csv",
+                        "periderm_length_micrometers.csv",
+                        "selected_image_names.txt",
+                        "periderm_length_after_QC_pixels.csv",
+                        "periderm_length_after_QC_micrometers.csv",
+                        "whole_root_length_pixels.csv",
+                        "whole_root_length_micrometers.csv",
+                        "whole_root_length_boxplot.png",
+                        "periderm_length_boxplot.png",
                     ]
-    
+
                     for folder in folders_to_move:
-                        src_folder_path = os.path.join(base_path, 'output', folder)
+                        src_folder_path = os.path.join(base_path, "output", folder)
                         dest_path = os.path.join(dest_folder_path, folder)
-    
+
                         if os.path.exists(src_folder_path):
                             shutil.move(src_folder_path, dest_path)
-    
+
                     for file in files_to_move:
-                        src_file_path = os.path.join(base_path, 'output', file)
+                        src_file_path = os.path.join(base_path, "output", file)
                         dest_file_path = os.path.join(dest_folder_path, file)
-    
+
                         if os.path.exists(src_file_path):
                             shutil.move(src_file_path, dest_file_path)
-    
+
             # Empty the "nature_accession" folder
             nature_accession_path = os.path.join(base_path, "nature_accession")
             if os.path.exists(nature_accession_path):
@@ -151,78 +197,99 @@ class MainWindow(QMainWindow):
                         os.unlink(file_path)
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
-    
+
             # Accept the event to close the application
             event.accept()
         else:
             # Ignore the event if the user chooses not to exit
             event.ignore()
 
-    
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
-            exit_reply = QMessageBox.question(self, 'Exit Confirmation',
-                                             "Are you sure you want to exit PAT?",
-                                             QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+            exit_reply = QMessageBox.question(
+                self,
+                "Exit Confirmation",
+                "Are you sure you want to exit PAT?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+
             if exit_reply == QMessageBox.Yes:
-                delete_reply = QMessageBox.question(self, 'Delete Temporary Folders',
-                                                    "Would you like to delete temporary folders?",
-                                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+                delete_reply = QMessageBox.question(
+                    self,
+                    "Delete Temporary Folders",
+                    "Would you like to delete temporary folders?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.No,
+                )
+
                 if delete_reply == QMessageBox.Yes:
                     folders_to_delete = [
-                        "Image_Padding", "Prediction_patch", "Image_Crop",
-                        "Segmentation_temp", "Segmentation_upp_v15",
-                        "segmentation_upp_periderm_v04", "seg_QC", "Seg_pad", "Ori_pad","WB_whole_root"
+                        "Image_Padding",
+                        "Prediction_patch",
+                        "Image_Crop",
+                        "Segmentation_temp",
+                        "Segmentation_upp_v15",
+                        "segmentation_upp_periderm_v04",
+                        "seg_QC",
+                        "Seg_pad",
+                        "Ori_pad",
+                        "WB_whole_root",
                     ]
-    
+
                     for folder in folders_to_delete:
-                        folder_path = os.path.join(base_path,'output', folder)
+                        folder_path = os.path.join(base_path, "output", folder)
                         if os.path.exists(folder_path):
                             shutil.rmtree(folder_path)
-    
-                save_reply = QMessageBox.question(self, 'Save Confirmation',
-                                                  "Would you like to save and move result folders?",
-                                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+
+                save_reply = QMessageBox.question(
+                    self,
+                    "Save Confirmation",
+                    "Would you like to save and move result folders?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.No,
+                )
+
                 if save_reply == QMessageBox.Yes:
-                    dest_folder_path = QFileDialog.getExistingDirectory(self, "Select Destination Folder", "")
-    
+                    dest_folder_path = QFileDialog.getExistingDirectory(
+                        self, "Select Destination Folder", ""
+                    )
+
                     if dest_folder_path:
                         folders_to_move = [
-                            "Post_processing_v09", "Final_Periderm_Segmentation_Results",
-                            "measurement", "for_QC"
+                            "Post_processing_v09",
+                            "Final_Periderm_Segmentation_Results",
+                            "measurement",
+                            "for_QC",
                         ]
-    
+
                         files_to_move = [
-                            "periderm_length.csv", "selected_image_names.txt"
+                            "periderm_length.csv",
+                            "selected_image_names.txt",
                         ]
-    
+
                         for folder in folders_to_move:
-                            src_folder_path = os.path.join(base_path,'output', folder)
+                            src_folder_path = os.path.join(base_path, "output", folder)
                             dest_path = os.path.join(dest_folder_path, folder)
-    
+
                             if os.path.exists(src_folder_path):
                                 shutil.move(src_folder_path, dest_path)
-    
+
                         for file in files_to_move:
-                            src_file_path = os.path.join(base_path,'output', file)
+                            src_file_path = os.path.join(base_path, "output", file)
                             dest_file_path = os.path.join(dest_folder_path, file)
-    
+
                             if os.path.exists(src_file_path):
                                 shutil.move(src_file_path, dest_file_path)
-    
+
                 self.close()
-
-
 
     def resize_image(self, image, target_height=500, target_width=500):
         height, width, _ = image.shape
         aspect_ratio = width / height
         new_width = int(target_height * aspect_ratio)
         new_height = int(target_width / aspect_ratio)
-        
+
         if new_width > target_width:
             new_width = target_width
         else:
@@ -230,68 +297,87 @@ class MainWindow(QMainWindow):
 
         resized_image = cv2.resize(image, (new_width, new_height))
         return resized_image
-    
 
     def load_image(self):
         folder_path = QFileDialog.getExistingDirectory(self, "Select Folder", "")
-        dest_folder = os.path.join(base_path,'nature_accession')
-        
+        dest_folder = os.path.join(base_path, "nature_accession")
+
         if folder_path:
-            image_files = [f for f in os.listdir(folder_path) if f.lower().endswith((".png", ".xpm", ".jpg", ".bmp", ".tif"))]
+            image_files = [
+                f
+                for f in os.listdir(folder_path)
+                if f.lower().endswith((".png", ".xpm", ".jpg", ".bmp", ".tif"))
+            ]
             total_images = len(image_files)
-            
+
             for image_file in image_files:
                 src_image_path = os.path.join(folder_path, image_file)
                 dest_image_path = os.path.join(dest_folder, image_file)
                 shutil.copy2(src_image_path, dest_image_path)
-                
+
                 self.image = cv2.imread(dest_image_path)
                 self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
                 self.image = self.resize_image(self.image)
                 height, width, channel = self.image.shape
                 bytes_per_line = 3 * width
-                q_image = QImage(self.image.data, width, height, bytes_per_line, QImage.Format_RGB888)
+                q_image = QImage(
+                    self.image.data, width, height, bytes_per_line, QImage.Format_RGB888
+                )
                 self.image_label.setPixmap(QPixmap.fromImage(q_image))
-                
+
                 self.loaded_images += 1
                 progress_percentage = int((self.loaded_images / total_images) * 100)
-                self.progress_bars[0].setValue(progress_percentage)        # ... (rest of the method)
+                self.progress_bars[0].setValue(
+                    progress_percentage
+                )  # ... (rest of the method)
 
     def run_script(self, script_path):
         os.system(f"python {script_path}")
 
     def preprocess_image(self):
         # Get the path of the 'nature_accession' folder relative to the script's directory
-        path = os.path.join(os.path.dirname(__file__), 'nature_accession')
-    
+        path = os.path.join(os.path.dirname(__file__), "nature_accession")
+
         # Check if the directory exists
         if not os.path.exists(path):
-            QMessageBox.warning(self, "Directory Not Found", f"The directory {path} was not found.")
+            QMessageBox.warning(
+                self, "Directory Not Found", f"The directory {path} was not found."
+            )
             return
-    
+
         # Get a list of all .tif files
         tif_files = [f for f in os.listdir(path) if f.endswith(".tif")]
         num_files = len(tif_files)
-    
+
         # Iterate through all files in the directory
         for index, f in enumerate(tif_files):
             file_path = os.path.join(path, f)
             print(f"Converting {file_path} to PNG...")
-            subprocess.run(['ffmpeg', '-i', file_path, '-pix_fmt', 'rgba', f'{os.path.splitext(file_path)[0]}.png'])
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-i",
+                    file_path,
+                    "-pix_fmt",
+                    "rgba",
+                    f"{os.path.splitext(file_path)[0]}.png",
+                ]
+            )
             print("Conversion complete!")
-    
+
             # Update the progress bar
             progress = ((index + 1) / num_files) * 100
             self.progress_bars[1].setValue(progress)
-    
+
             # Remove the original .tif file
             os.remove(file_path)
             print(f"Removed original file: {f}")
 
-
     def segment_image(self):
-         # Load and display the segmentation image
-        segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'segmentation.png')
+        # Load and display the segmentation image
+        segmentation_image_path = os.path.join(
+            base_path, "resources", "images", "segmentation.png"
+        )
         self.display_image(segmentation_image_path)
         # Define the mapping between log messages and progress values
         progress_mapping = {
@@ -304,35 +390,53 @@ class MainWindow(QMainWindow):
         }
 
         # Run the script as a subprocess
-        process = subprocess.Popen(["python", os.path.join(os.path.dirname(__file__),'src', "segmentation_patch_cor.py")], stdout=subprocess.PIPE, text=True)
-
+        process = subprocess.Popen(
+            [
+                "python",
+                os.path.join(
+                    os.path.dirname(__file__), "src", "segmentation_patch_cor.py"
+                ),
+            ],
+            stdout=subprocess.PIPE,
+            text=True,
+        )
 
         # Poll process for new output and update progress bar
         while True:
             line = process.stdout.readline()
             if not line:
                 break
-            
+
             # Check if the line matches any of the progress indicators
             for key, value in progress_mapping.items():
                 if key in line:
                     self.progress_bars[2].setValue(value)
                     QApplication.processEvents()  # Process any pending events
-        
+
         # Optionally, set progress bar to 100% once script completes
         self.progress_bars[2].setValue(100)
 
     def postprocess_image(self):
-        segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'postprocessing.png')
+        segmentation_image_path = os.path.join(
+            base_path, "resources", "images", "postprocessing.png"
+        )
         self.display_image(segmentation_image_path)
-        
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src',"new_post_processing_for_measurement.py"))
+
+        self.run_script(
+            os.path.join(
+                os.path.dirname(__file__),
+                "src",
+                "new_post_processing_for_measurement.py",
+            )
+        )
         self.progress_bars[3].setValue(100)
 
     def quality_control(self):
-        segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'QC.png')
+        segmentation_image_path = os.path.join(
+            base_path, "resources", "images", "QC.png"
+        )
         self.display_image(segmentation_image_path)
-        
+
         # Create and display a modal QMessageBox
         msg_box = QMessageBox()
         msg_box.setIcon(QMessageBox.Information)
@@ -340,28 +444,38 @@ class MainWindow(QMainWindow):
         msg_box.setWindowTitle("Generating Images for QC")
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.setModal(True)  # Makes the message box modal
-        
+
         # Display the modal message box and wait for it to close
         msg_box.exec_()
-        
+
         # Continue with the script after the message box is closed
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src', "generate_images_for_QC.py"))
+        self.run_script(
+            os.path.join(os.path.dirname(__file__), "src", "generate_images_for_QC.py")
+        )
         self.progress_bars[4].setValue(50)
-        
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src', "PAT_QC_GUI_test.py"))
+
+        self.run_script(
+            os.path.join(os.path.dirname(__file__), "src", "PAT_QC_GUI.py")
+        )  # PAT_QC_GUI_test
         self.progress_bars[4].setValue(100)
 
     def phenotyping(self):
-        segmentation_image_path = os.path.join(base_path, 'resources', 'images', 'phenotyping.png')
+        segmentation_image_path = os.path.join(
+            base_path, "resources", "images", "phenotyping.png"
+        )
         self.display_image(segmentation_image_path)
         root = Tk()
         root.withdraw()
-    
+
         # Popup to ask for quick measurement
-        quick_measurement_reply = QMessageBox.question(self, 'Quick Measurement', 
-                                                       "Do you want to calculate length quickly?",
-                                                       QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+        quick_measurement_reply = QMessageBox.question(
+            self,
+            "Quick Measurement",
+            "Do you want to calculate length quickly?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+
         # Select the script based on the response
         if quick_measurement_reply == QMessageBox.Yes:
             periderm_script = "measurement_resize_periderm_lr.py"
@@ -369,70 +483,101 @@ class MainWindow(QMainWindow):
         else:
             periderm_script = "measurement_resize_periderm.py"
             whole_root_script = "measurement_resize_whole_root.py"
-    
+
         # Run the periderm measurement script
-        self.run_script(os.path.join(os.path.dirname(__file__), 'src', periderm_script))
-    
+        self.run_script(os.path.join(os.path.dirname(__file__), "src", periderm_script))
+
         # Ask the user if they want to measure the whole root length
-        whole_root_length_reply = QMessageBox.question(self, 'Measure Whole Root Length', 
-                                                      "Do you want to measure the whole root length?",
-                                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-    
+        whole_root_length_reply = QMessageBox.question(
+            self,
+            "Measure Whole Root Length",
+            "Do you want to measure the whole root length?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No,
+        )
+
         if whole_root_length_reply == QMessageBox.Yes:
             self.progress_bars[5].setValue(50)
-            
+
             # Run wb_convert.py before running whole root length script
-            self.run_script(os.path.join(os.path.dirname(__file__), 'src', "wb_convert.py"))
-            self.run_script(os.path.join(os.path.dirname(__file__), 'src', whole_root_script))
-            
+            self.run_script(
+                os.path.join(os.path.dirname(__file__), "src", "wb_convert.py")
+            )
+            self.run_script(
+                os.path.join(os.path.dirname(__file__), "src", whole_root_script)
+            )
+
             self.progress_bars[5].setValue(100)
         else:
             self.progress_bars[5].setValue(100)
-    
+
         # After running the measurement scripts, ask the user if they want to save the QC data
-        qc_response = messagebox.askyesno("Save QC Data", "Do you want to save phenotyping data after QC?")
-        
+        qc_response = messagebox.askyesno(
+            "Save QC Data", "Do you want to save phenotyping data after QC?"
+        )
+
         if qc_response:
             # If the user wants to save QC data, run QC_selected.py
-            self.run_script(os.path.join(os.path.dirname(__file__), 'src', "QC_selected.py"))
-    
+            self.run_script(
+                os.path.join(os.path.dirname(__file__), "src", "QC_selected.py")
+            )
+
         # Close the Tkinter window
         root.destroy()
-    
+
         # After all phenotyping steps, ask for conversion ratio and convert pixel values
         self.convert_pixels_to_micrometers()
 
-
     def convert_pixels_to_micrometers(self):
         # Prompt user for conversion ratio
-        conversion_ratio, ok = QInputDialog.getDouble(self, 'Conversion Ratio',
-                                                      'Enter conversion ratio (default 0.5299):',
-                                                      value=0.5299, decimals=4, min=0.0)
-        
+        conversion_ratio, ok = QInputDialog.getDouble(
+            self,
+            "Conversion Ratio",
+            "Enter conversion ratio (default 0.5299):",
+            value=0.5299,
+            decimals=4,
+            min=0.0,
+        )
+
         if ok:
             # Conversion process
             self.convert_measurements(conversion_ratio)
+
     def convert_measurements(self, conversion_ratio):
-        output_folder = os.path.join(base_path, 'output')
+        output_folder = os.path.join(base_path, "output")
         # Specify the CSV files to check and convert
-        csv_files = ['periderm_length_pixels.csv', 'whole_root_length_pixels.csv', 'periderm_length_after_QC_pixels.csv']
+        csv_files = [
+            "periderm_length_pixels.csv",
+            "whole_root_length_pixels.csv",
+            "periderm_length_after_QC_pixels.csv",
+        ]
 
         for csv_file in csv_files:
             csv_path = os.path.join(output_folder, csv_file)
             if os.path.isfile(csv_path):
                 # Perform the conversion
-                converted_df = self.convert_csv_pixels_to_micrometers(csv_path, conversion_ratio)
-                converted_csv_path = os.path.join(output_folder, csv_file.replace('_pixels.csv', '_micrometers.csv'))
+                converted_df = self.convert_csv_pixels_to_micrometers(
+                    csv_path, conversion_ratio
+                )
+                converted_csv_path = os.path.join(
+                    output_folder, csv_file.replace("_pixels.csv", "_micrometers.csv")
+                )
                 converted_df.to_csv(converted_csv_path, index=False)
-                #QMessageBox.information(self, "Conversion Complete", f"Converted {csv_file} to micrometers.")
+                # QMessageBox.information(self, "Conversion Complete", f"Converted {csv_file} to micrometers.")
             else:
-                QMessageBox.warning(self, "File Not Found", f"The file {csv_file} does not exist in the output folder.")
+                QMessageBox.warning(
+                    self,
+                    "File Not Found",
+                    f"The file {csv_file} does not exist in the output folder.",
+                )
 
     def convert_csv_pixels_to_micrometers(self, file_path, conversion_ratio):
         # Read the CSV file
         df = pd.read_csv(file_path)
         # Apply conversion to all elements, assuming they are numeric
-        converted_df = df.applymap(lambda x: self.safe_convert_pixels_to_micrometers(x, conversion_ratio))
+        converted_df = df.applymap(
+            lambda x: self.safe_convert_pixels_to_micrometers(x, conversion_ratio)
+        )
         return converted_df
 
     def safe_convert_pixels_to_micrometers(self, value, conversion_ratio):
@@ -441,8 +586,8 @@ class MainWindow(QMainWindow):
             return float(value) / conversion_ratio
         except (ValueError, TypeError):
             # Return the value unchanged if it's not a number
-            return value            
-    
+            return value
+
     def display_image(self, image_path):
         # Check if the image file exists
         if os.path.exists(image_path):
@@ -450,20 +595,23 @@ class MainWindow(QMainWindow):
             image = cv2.imread(image_path)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = self.resize_image(image)
-    
+
             # Convert to QImage and then to QPixmap to display it on QLabel
             height, width, channel = image.shape
             bytes_per_line = 3 * width
-            q_image = QImage(image.data, width, height, bytes_per_line, QImage.Format_RGB888)
+            q_image = QImage(
+                image.data, width, height, bytes_per_line, QImage.Format_RGB888
+            )
             pixmap = QPixmap.fromImage(q_image)
             self.image_label.setPixmap(pixmap)
         else:
             # If the image does not exist, display an error message
-            QMessageBox.warning(self, "Image Not Found", f"The image at {image_path} was not found.")
+            QMessageBox.warning(
+                self, "Image Not Found", f"The image at {image_path} was not found."
+            )
 
-    
     def Visualization(self):
-        output_folder = os.path.join(os.path.dirname(__file__), 'output')
+        output_folder = os.path.join(os.path.dirname(__file__), "output")
         periderm_file = os.path.join(output_folder, "periderm_length_pixels.csv")
         whole_root_file = os.path.join(output_folder, "whole_root_length_pixels.csv")
 
@@ -474,22 +622,36 @@ class MainWindow(QMainWindow):
                 # Ask the user if they want to boxplot whole root length
                 root = Tk()
                 root.withdraw()
-                response = messagebox.askyesno("Boxplot Whole Root Length", "Do you want to boxplot whole root length?")
+                response = messagebox.askyesno(
+                    "Boxplot Whole Root Length",
+                    "Do you want to boxplot whole root length?",
+                )
                 root.destroy()
 
                 # Run boxplot_periderm.py
-                self.run_script(os.path.join(os.path.dirname(__file__), 'src', "boxplot_periderm.py"))
+                self.run_script(
+                    os.path.join(
+                        os.path.dirname(__file__), "src", "boxplot_periderm.py"
+                    )
+                )
 
                 # If user chooses yes, also run boxplot_whole_root.py
                 if response:
-                    self.run_script(os.path.join(os.path.dirname(__file__), 'src', "boxplot_whole_root.py"))
+                    self.run_script(
+                        os.path.join(
+                            os.path.dirname(__file__), "src", "boxplot_whole_root.py"
+                        )
+                    )
             else:
                 # If only periderm_length.csv exists, just run boxplot_periderm.py
-                self.run_script(os.path.join(os.path.dirname(__file__), 'src', "boxplot_periderm.py"))
+                self.run_script(
+                    os.path.join(
+                        os.path.dirname(__file__), "src", "boxplot_periderm.py"
+                    )
+                )
 
         # Set progress bar to 100%
-        #self.progress_bars[5].setValue(100)
-
+        # self.progress_bars[5].setValue(100)
 
 
 def main():
