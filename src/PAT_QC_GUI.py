@@ -9,47 +9,56 @@ script_dir = os.path.dirname(__file__)
 # Path to the main.py directory (one level up from script_dir)
 main_dir = os.path.dirname(script_dir)
 
+
 class ImageSelector:
     def __init__(self, master):
         self.master = master
         self.master.title("Image Selector")
-        self.master.geometry("2000x1000")
+        self.master.geometry("1000x700")
 
         self.current_image = 0
         self.images = []
         self.selected_images = []
         self.zoom_scale = 1.0
         self.x = 0
-        self.y = 0        
+        self.y = 0
 
         # Create GUI elements
-        self.canvas = tk.Canvas(self.master, width=1800, height=900)
+        self.canvas = tk.Canvas(self.master, width=1000, height=600)  # 1800 900
         self.canvas.pack(side=tk.TOP)
 
         self.master.bind("<Left>", self.show_previous)
         self.master.bind("<Right>", self.show_next)
-        
-        self.btn_select = tk.Button(self.master, text="Select", command=self.select_image)
+
+        self.btn_select = tk.Button(
+            self.master, text="Select", command=self.select_image
+        )
         self.btn_select.pack(side=tk.BOTTOM)
-        
+
         self.lbl_selected_count = tk.Label(self.master, text="Selected: 0")
         self.lbl_selected_count.pack(side=tk.BOTTOM)
 
         self.master.bind("z", self.zoom_in)
         self.master.bind("x", self.zoom_out)
-        
+
         self.canvas.bind("<ButtonPress-1>", self.on_button_press)
         self.canvas.bind("<B1-Motion>", self.on_move_press)
         self.canvas.bind("<ButtonRelease-1>", self.on_button_release)
 
         self.canvas.focus_set()
-        
-        self.folder_path = filedialog.askdirectory(initialdir= os.path.join(main_dir, 'output','periderm_pipeline_QC'))
+
+        self.folder_path = filedialog.askdirectory(
+            initialdir=os.path.join(main_dir, "output", "periderm_pipeline_QC")
+        )
         self.load_images()
 
     def load_images(self):
         for filename in os.listdir(self.folder_path):
-            if filename.endswith(".jpg") or filename.endswith(".jpeg") or filename.endswith(".png"):
+            if (
+                filename.endswith(".jpg")
+                or filename.endswith(".jpeg")
+                or filename.endswith(".png")
+            ):
                 image = Image.open(os.path.join(self.folder_path, filename))
                 self.images.append(image)
 
@@ -57,9 +66,11 @@ class ImageSelector:
             self.show_image()
 
     def show_image(self):
-        w = 1800
-        h = 900
-        image = self.images[self.current_image].resize((int(w * self.zoom_scale), int(h * self.zoom_scale)),Image.ANTIALIAS)
+        w = 1000
+        h = 600
+        image = self.images[self.current_image].resize(
+            (int(w * self.zoom_scale), int(h * self.zoom_scale)), Image.ANTIALIAS
+        )
         photo = ImageTk.PhotoImage(image)
         self.canvas.create_image(self.x, self.y, image=photo, anchor=tk.NW)
         self.canvas.image = photo
@@ -77,7 +88,9 @@ class ImageSelector:
     def select_image(self):
         if self.current_image not in self.selected_images:
             self.selected_images.append(self.current_image)
-            filename = os.path.basename(os.path.normpath(self.images[self.current_image].filename))
+            filename = os.path.basename(
+                os.path.normpath(self.images[self.current_image].filename)
+            )
             self.save_image_name(filename)
             self.highlight_selected_image()
             self.update_selected_count()
@@ -87,11 +100,13 @@ class ImageSelector:
         self.canvas.create_rectangle(0, 0, w, h, outline="red", width=5)
 
     def update_selected_count(self):
-        self.lbl_selected_count.config(text="Selected: " + str(len(self.selected_images)))
+        self.lbl_selected_count.config(
+            text="Selected: " + str(len(self.selected_images))
+        )
 
     def save_image_name(self, filename):
         # Path to the output directory
-        output_dir = os.path.join(main_dir, 'output')
+        output_dir = os.path.join(main_dir, "output")
 
         # Ensure the output directory exists
         if not os.path.exists(output_dir):
@@ -112,7 +127,7 @@ class ImageSelector:
 
     def on_button_release(self, event):
         pass
-    
+
     def zoom_in(self, event=None):
         self.zoom_scale *= 1.1
         self.show_image()
@@ -132,7 +147,8 @@ class ImageSelector:
         enhancer = ImageEnhance.Brightness(self.images[self.current_image])
         enhanced_image = enhancer.enhance(brightness)
         self.images[self.current_image] = enhanced_image
-        self.show_image()  
+        self.show_image()
+
 
 root = tk.Tk()
 app = ImageSelector(root)

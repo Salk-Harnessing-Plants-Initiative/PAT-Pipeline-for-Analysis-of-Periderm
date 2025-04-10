@@ -41,7 +41,7 @@ dependencies:
     - segmentation_models_pytorch # PyTorch segmentation models
     - opencv-python            # OpenCV package
     # Add pytorch3d after all conda packages are listed
-    - pytorch3d         # Specific version of pytorch3d
+    # - pytorch3d         # Specific version of pytorch3d
     - fil_finder               # Library for astrophysical data analysis
     - PyQt5
     - pandas
