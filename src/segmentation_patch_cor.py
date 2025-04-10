@@ -283,241 +283,285 @@ def get_validation_augmentation():
     test_transform = [
         # LW size should be square and can be devided by 32
         # LW height and width change from 992 to 1120 to 2752
-        album.PadIfNeeded(min_height=patch_size, min_width=patch_size, always_apply=True, border_mode=0),
+        album.PadIfNeeded(
+            min_height=patch_size,
+            min_width=patch_size,
+            always_apply=True,
+            border_mode=0,
+            value=(0, 0, 0),
+        ),
     ]
     return album.Compose(test_transform)
+
 
 def get_test_augmentation():
     # Add sufficient padding to ensure image is divisible by 32
     test_transform = [
         # LW change min_height of 1120 to 6016 to 2016, same as val
         # LW change min_width of 992 to 4000 to 1120 for checking images instead of images_test
-        album.PadIfNeeded(min_height=patch_size, min_width=patch_size, always_apply=True, border_mode=0),
+        album.PadIfNeeded(
+            min_height=patch_size,
+            min_width=patch_size,
+            always_apply=True,
+            border_mode=0,
+            value=(0, 0, 0),
+        ),
     ]
     return album.Compose(test_transform)
 
+
 def to_tensor(x, **kwargs):
-    return x.transpose(2, 0, 1).astype('float32')
+    return x.transpose(2, 0, 1).astype("float32")
 
 
 def get_preprocessing(preprocessing_fn=None):
-    """Construct preprocessing transform    
+    """Construct preprocessing transform
     Args:
-        preprocessing_fn (callable): data normalization function 
+        preprocessing_fn (callable): data normalization function
             (can be specific for each pretrained neural network)
     Return:
         transform: albumentations.Compose
-    """   
+    """
     _transform = []
     if preprocessing_fn:
         _transform.append(album.Lambda(image=preprocessing_fn))
     _transform.append(album.Lambda(image=to_tensor, mask=to_tensor))
-        
+
     return album.Compose(_transform)
 
 
-#%%
+# %%
 # Set device: `cuda` or `cpu`
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model_path = os.path.join(main_dir, 'models','best_model_unet_plusplus_resnet34_periderm4classes_Lin_0301_1024_6.pth')
-alt_model_path = '../input/unet-with-pretrained-resnet50-encoder-pytorch/best_model_eye_ce.pth'
+model_path = os.path.join(
+    main_dir,
+    "models",
+    "best_model_unet_plusplus_resnet34_periderm4classes_Lin_0301_1024_6.pth",
+)
+alt_model_path = (
+    "../input/unet-with-pretrained-resnet50-encoder-pytorch/best_model_eye_ce.pth"
+)
 
 # Check if the primary model file exists
 if os.path.exists(model_path):
     best_model = torch.load(model_path, map_location=DEVICE)
-    print('Loaded UNet model from this run.')
+    print("Loaded UNet model from this run.")
 
 # If not, check for an alternative model file
 elif os.path.exists(alt_model_path):
     best_model = torch.load(alt_model_path, map_location=DEVICE)
-    print('Loaded UNet model from a previous commit.')
+    print("Loaded UNet model from a previous commit.")
 
 # If neither model file is found
 else:
-    print('No model found.')
+    print("No model found.")
 
 
-#%%
+# %%
 # Center crop padded image / mask to original image dims
 def crop_image(image, true_dimensions):
-    return album.CenterCrop(p=1, height=true_dimensions[0], width=true_dimensions[1])(image=image)
+    return album.CenterCrop(p=1, height=true_dimensions[0], width=true_dimensions[1])(
+        image=image
+    )
 
-sample_preds_folder = os.path.join(main_dir, 'output','Prediction_patch')
+
+sample_preds_folder = os.path.join(main_dir, "output", "Prediction_patch")
 if not os.path.exists(sample_preds_folder):
     os.makedirs(sample_preds_folder)
 
 files = os.listdir(sample_preds_folder)
-if len(files)>0:
+if len(files) > 0:
     for items in files:
-        os.remove(os.path.join(sample_preds_folder,items))
-        
+        os.remove(os.path.join(sample_preds_folder, items))
 
 
-#%% 
+# %%
 # zero padding and crop
 
 patch_size = 1024
 overlap_size = 16
 
-#image_path = "./Images_all/"
-image_path = os.path.join(main_dir, 'nature_accession/')
+# image_path = "./Images_all/"
+image_path = os.path.join(main_dir, "nature_accession/")
 print(image_path)
 
-image_path_padding = os.path.join(main_dir,'output','Image_Padding')
+# flip left and right
+# Output folder (optional, or you can overwrite)
+output_path = os.path.join(main_dir, "nature_accession_flip\\")
+os.makedirs(output_path, exist_ok=True)
+
+for filename in os.listdir(image_path):
+    img = cv2.imread(os.path.join(image_path, filename))
+    flipped_img = cv2.flip(img, 1)  # 1 means horizontal flip
+    cv2.imwrite(os.path.join(output_path, filename), flipped_img)
+
+image_path = output_path
+
+image_path_padding = os.path.join(main_dir, "output", "Image_Padding")
 if not os.path.exists(image_path_padding):
     os.mkdir(image_path_padding)
 
 # image_path_padding = "./Plate_Image_Padding_temp/" if os.path.exists("./Plate_Image_Padding_temp/") else os.mkdir("./Plate_Image_Padding_temp/")
 files_temp = os.listdir(image_path_padding)
-if len(files_temp)>0:
+if len(files_temp) > 0:
     for items in files_temp:
-        os.remove(os.path.join(image_path_padding,items))
+        os.remove(os.path.join(image_path_padding, items))
 
-image_path_crop = os.path.join(main_dir,'output','Image_Crop/')
+image_path_crop = os.path.join(main_dir, "output", "Image_Crop/")
 if not os.path.exists(image_path_crop):
-    os.mkdir(image_path_crop)        
-        
+    os.mkdir(image_path_crop)
+
 
 # image_path_crop = "./Plate_Image_Crop_temp/" if os.path.exists("./Plate_Image_Crop_temp/") else os.mkdir("./Plate_Image_Crop_temp/")
 files_temp = os.listdir(image_path_crop)
-if len(files_temp)>0:
+if len(files_temp) > 0:
     for items in files_temp:
-        os.remove(os.path.join(image_path_crop,items))
+        os.remove(os.path.join(image_path_crop, items))
 
-pad_image=False
+pad_image = False
 
-add_0padding_crop(patch_size, overlap_size, image_path, image_path_padding, image_path_crop, pad_image)
+add_0padding_crop(
+    patch_size, overlap_size, image_path, image_path_padding, image_path_crop, pad_image
+)
 image_name = sorted(os.listdir(image_path))
-print("Finish padding ", len(image_name), "images.",flush=True)
+print("Finish padding ", len(image_name), "images.", flush=True)
 
 
-#%%
-#%% generate metadata file
+# %%
+# %% generate metadata file
 
-#image_path = image_path_crop
+# image_path = image_path_crop
 
-subimage_list = [file for file in os.listdir(image_path_crop) if (file.endswith('.png') and not file.startswith('.'))]
+subimage_list = [
+    file
+    for file in os.listdir(image_path_crop)
+    if (file.endswith(".png") and not file.startswith("."))
+]
 
 metadata_row = []
 for i in range(len(subimage_list)):
-    image_path_i = image_path_crop+subimage_list[i]
-    label_path_i = image_path_crop+subimage_list[i]
-    metadata_row.append([str(i+1),image_path_i,label_path_i])
+    image_path_i = image_path_crop + subimage_list[i]
+    label_path_i = image_path_crop + subimage_list[i]
+    metadata_row.append([str(i + 1), image_path_i, label_path_i])
 
-metadata_file = os.path.join(main_dir,'models','metadata_tem.csv')
+metadata_file = os.path.join(main_dir, "models", "metadata_tem.csv")
 
-header = ['image_id','image_path','label_colored_path']
-with open(metadata_file,'w') as csvfile:    
-     writer = csv.writer(csvfile,lineterminator='\n')
-     writer.writerow([g for g in header])
-     for x in range(len(metadata_row)):
-         writer.writerow(metadata_row[x])
-         
-#%%
+header = ["image_id", "image_path", "label_colored_path"]
+with open(metadata_file, "w") as csvfile:
+    writer = csv.writer(csvfile, lineterminator="\n")
+    writer.writerow([g for g in header])
+    for x in range(len(metadata_row)):
+        writer.writerow(metadata_row[x])
+
+
+# %%
 class PredictionDataset(torch.utils.data.Dataset):
-
     """Stanford Background Dataset. Read images, apply augmentation and preprocessing transformations.
-    
+
     Args:
         df (str): DataFrame containing images / labels paths
         class_rgb_values (list): RGB values of select classes to extract from segmentation mask
-        augmentation (albumentations.Compose): data transfromation pipeline 
+        augmentation (albumentations.Compose): data transfromation pipeline
             (e.g. flip, scale, etc.)
-        preprocessing (albumentations.Compose): data preprocessing 
+        preprocessing (albumentations.Compose): data preprocessing
             (e.g. noralization, shape manipulation, etc.)
-    
+
     """
+
     def __init__(
-            self, 
-            df,
-            class_rgb_values=None, 
-            augmentation=None, 
-            preprocessing=None,
+        self,
+        df,
+        class_rgb_values=None,
+        augmentation=None,
+        preprocessing=None,
     ):
-        self.image_paths = df['image_path'].tolist()
-        
+        self.image_paths = df["image_path"].tolist()
+
         self.class_rgb_values = class_rgb_values
         self.augmentation = augmentation
         self.preprocessing = preprocessing
-    
+
     def __getitem__(self, i):
-        
+
         # read images and masks
-        #print(self.image_paths[i])
+        # print(self.image_paths[i])
         image = cv2.cvtColor(cv2.imread(self.image_paths[i]), cv2.COLOR_BGR2RGB)
-        names = self.image_paths[i].rsplit('/', 1)[-1].split('.')[0]
-        
+        names = self.image_paths[i].rsplit("/", 1)[-1].split(".")[0]
+
         # apply augmentations
         if self.augmentation:
             sample = self.augmentation(image=image)
-            image = sample['image']
-        
+            image = sample["image"]
+
         # apply preprocessing
         if self.preprocessing:
             sample = self.preprocessing(image=image)
-            image = sample['image']
-            
+            image = sample["image"]
+
         return image, names
-        
+
     def __len__(self):
-        # return length of 
+        # return length of
         return len(self.image_paths)
-    
-#%%
+
+
+# %%
 
 preds_folder = image_path_crop
 
 DATA_DIR = main_dir
-pred_df = pd.read_csv(os.path.join(main_dir,'models','metadata_tem.csv'))
+pred_df = pd.read_csv(os.path.join(main_dir, "models", "metadata_tem.csv"))
 
-select_classes = ['background', 'periderm', 'endodermis', 'lateral_root']
+select_classes = ["background", "periderm", "endodermis", "lateral_root"]
 
-class_dict = pd.read_csv(os.path.join(DATA_DIR, 'models','label_class_dict_lr.csv'))
+class_dict = pd.read_csv(os.path.join(DATA_DIR, "models", "label_class_dict_lr.csv"))
 # Get class names
-class_names = class_dict['name'].tolist()
+class_names = class_dict["name"].tolist()
 # Get class RGB values
-class_rgb_values = class_dict[['r','g','b']].values.tolist()
+class_rgb_values = class_dict[["r", "g", "b"]].values.tolist()
 
 # Get RGB values of required classes
 select_class_indices = [class_names.index(cls.lower()) for cls in select_classes]
-select_class_rgb_values =  np.array(class_rgb_values)[select_class_indices]
+select_class_rgb_values = np.array(class_rgb_values)[select_class_indices]
 
 # select_class_rgb_values =  np.array([[0, 0, 0], [255, 255, 255]])
-ENCODER = 'resnet34'
-#ENCODER = 'resnet101'
+ENCODER = "resnet34"
+# ENCODER = 'resnet101'
 # LW can choose different architecture, use the resnet101 to test
-ENCODER_WEIGHTS = 'imagenet'
+ENCODER_WEIGHTS = "imagenet"
 CLASSES = select_classes
-ACTIVATION = 'sigmoid' # could be None for logits or 'softmax2d' for multiclass segmentation
-#ACTIVATION = 'softmax2d'
+ACTIVATION = (
+    "sigmoid"  # could be None for logits or 'softmax2d' for multiclass segmentation
+)
+# ACTIVATION = 'softmax2d'
 # create segmentation model with pretrained encoder
 model = smp.UnetPlusPlus(
-    encoder_name=ENCODER, 
-    encoder_weights=ENCODER_WEIGHTS, 
-    classes=len(CLASSES), 
+    encoder_name=ENCODER,
+    encoder_weights=ENCODER_WEIGHTS,
+    classes=len(CLASSES),
     activation=ACTIVATION,
 )
-#model = nn.DataParallel(model, device_ids=[0]) # without cuda
+# model = nn.DataParallel(model, device_ids=[0]) # without cuda
 model = nn.DataParallel(model, device_ids=[0]).cuda()
 preprocessing_fn = smp.encoders.get_preprocessing_fn(ENCODER, ENCODER_WEIGHTS)
 
 test_dataset = PredictionDataset(
-    pred_df, 
-    augmentation=get_validation_augmentation(), 
+    pred_df,
+    augmentation=get_validation_augmentation(),
     preprocessing=get_preprocessing(preprocessing_fn),
     class_rgb_values=select_class_rgb_values,
 )
 
-sample_preds_folder = os.path.join(main_dir,'output','Segmentation_temp/')
+sample_preds_folder = os.path.join(main_dir, "output", "Segmentation_temp/")
 if not os.path.exists(sample_preds_folder):
     os.mkdir(sample_preds_folder)
 
 # sample_preds_folder = "./Plate_segmentation_temp/" if os.path.exists("./Plate_segmentation_temp/") else os.mkdir("./Plate_segmentation_temp/")
 files = os.listdir(sample_preds_folder)
-if len(files)>0:
+if len(files) > 0:
     for items in files:
-        os.remove(os.path.join(sample_preds_folder,items))
+        os.remove(os.path.join(sample_preds_folder, items))
 
 
 test_dataset_vis = BackgroundDataset(
@@ -526,74 +570,96 @@ test_dataset_vis = BackgroundDataset(
 )
 
 
+# %%
+for idx in range(len(test_dataset)):  # len(test_dataset)
 
-#%% 
-for idx in range(len(test_dataset)): # len(test_dataset)
-
-    #print(sample_preds_folder)
+    # print(sample_preds_folder)
     image, names = test_dataset[idx]
-    image_vis = test_dataset_vis[idx][0].astype('uint8')
+    image_vis = test_dataset_vis[idx][0].astype("uint8")
     true_dimensions = image_vis.shape
     x_tensor = torch.from_numpy(image).to(DEVICE).unsqueeze(0)
     # Predict test image
     pred_mask = best_model(x_tensor)
     pred_mask = pred_mask.detach().squeeze().cpu().numpy()
     # Convert pred_mask from `CHW` format to `HWC` format
-    pred_mask = np.transpose(pred_mask,(1,2,0))
+    pred_mask = np.transpose(pred_mask, (1, 2, 0))
     # Get prediction channel corresponding to foreground
-    pred_foreground_heatmap = crop_image(pred_mask[:,:,select_classes.index('periderm')], true_dimensions)['image']
-    pred_mask = crop_image(colour_code_segmentation(reverse_one_hot(pred_mask), select_class_rgb_values), true_dimensions)['image']
+    pred_foreground_heatmap = crop_image(
+        pred_mask[:, :, select_classes.index("periderm")], true_dimensions
+    )["image"]
+    pred_mask = crop_image(
+        colour_code_segmentation(reverse_one_hot(pred_mask), select_class_rgb_values),
+        true_dimensions,
+    )["image"]
     # Convert gt_mask from `CHW` format to `HWC` format
     # LW gt_mask = np.transpose(gt_mask,(1,2,0))
     # LW gt_mask = crop_image(colour_code_segmentation(reverse_one_hot(gt_mask), select_class_rgb_values), true_dimensions)['image']
-    #cv2.imwrite(os.path.join(sample_preds_folder, f"sample_pred_{idx}.png"), np.hstack([image_vis, gt_mask, pred_mask])[:,:,::-1])
-    #cv2.imwrite(os.path.join(sample_preds_folder, f"sample_pred_{idx}.png"), pred_foreground_heatmap)
+    # cv2.imwrite(os.path.join(sample_preds_folder, f"sample_pred_{idx}.png"), np.hstack([image_vis, gt_mask, pred_mask])[:,:,::-1])
+    # cv2.imwrite(os.path.join(sample_preds_folder, f"sample_pred_{idx}.png"), pred_foreground_heatmap)
     cv2.imwrite(os.path.join(sample_preds_folder, f"{names}.png"), pred_mask)
-    #visualize(
+    # visualize(
     #    original_image = image_vis,
-        # LW ground_truth_mask = gt_mask,
+    # LW ground_truth_mask = gt_mask,
     #    predicted_mask = pred_mask,
     #    pred_foreground_heatmap = pred_foreground_heatmap
-    #)
+    # )
 
-#%%
+# %%
 
-print("Finish segmenting",flush=True)
-def stitch_crop_images(patch_size, overlap_size, original_image_path, image_path, stitch_path):
+print("Finish segmenting", flush=True)
+
+
+def stitch_crop_images(
+    patch_size, overlap_size, original_image_path, image_path, stitch_path
+):
     """Stitch the prediction in patch size.
-    
+
     Args:
         patch_size: expected patch size of deep learning model.
         overlap_size: the expected overlap/border of two adjacent images.
         original_image_path: the path where store original images.
         image_path: the path where store prediction in patch size.
         stitch_path: the expected path where store the stitched predictions.
-    
+
 
     Returns:
         Save stitched predictions.
-    
+
     """
-    PredNameList = [file for file in os.listdir(image_path) if (file.endswith('.png') and not file.startswith('.'))]
-	
+    PredNameList = [
+        file
+        for file in os.listdir(image_path)
+        if (file.endswith(".png") and not file.startswith("."))
+    ]
+
     image_name = []
     for i in range(len(PredNameList)):
         filename = os.path.splitext(PredNameList[i])[0]
-        filename2 = filename.rsplit('_',1)
+        filename2 = filename.rsplit("_", 1)
         image_name.append(filename2[0])
     image_name = np.array(image_name)
     image_name_unique = np.unique(image_name)
-    
+
     for name in image_name_unique:
-        #pass
-        image_crop_name_list = [file for file in os.listdir(image_path) if (file.endswith('.png') and file.startswith(str(name)) and not file.startswith('.'))]
+        # pass
+        image_crop_name_list = [
+            file
+            for file in os.listdir(image_path)
+            if (
+                file.endswith(".png")
+                and file.startswith(str(name))
+                and not file.startswith(".")
+            )
+        ]
         image_crop_count = len(image_crop_name_list)
-        
+
         # will need the original image shape
-        im = cv2.imread(original_image_path+name+".png")
+        im = cv2.imread(original_image_path + name + ".png")
         shape_0, shape_1, shape_2 = im.shape[0], im.shape[1], im.shape[2]
-        n_0, n_1 = math.ceil(shape_0/(patch_size-overlap_size/2)), math.ceil(shape_1/(patch_size-overlap_size/2))
-        
+        n_0, n_1 = math.ceil(shape_0 / (patch_size - overlap_size / 2)), math.ceil(
+            shape_1 / (patch_size - overlap_size / 2)
+        )
+
         n_0_idx = []
         n_1_idx = []
         index = []

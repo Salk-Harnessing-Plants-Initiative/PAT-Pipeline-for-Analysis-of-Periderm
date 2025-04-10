@@ -430,6 +430,18 @@ overlap_size = 16
 image_path = os.path.join(main_dir, "nature_accession\\")
 print(image_path)
 
+# flip left and right
+# Output folder (optional, or you can overwrite)
+output_path = os.path.join(main_dir, "nature_accession_flip\\")
+os.makedirs(output_path, exist_ok=True)
+
+for filename in os.listdir(image_path):
+    img = cv2.imread(os.path.join(image_path, filename))
+    flipped_img = cv2.flip(img, 1)  # 1 means horizontal flip
+    cv2.imwrite(os.path.join(output_path, filename), flipped_img)
+
+image_path = output_path
+
 image_path_padding = os.path.join(main_dir, "output", "Image_Padding\\")
 if not os.path.exists(image_path_padding):
     os.mkdir(image_path_padding)
