@@ -2,16 +2,18 @@ import cv2
 import numpy as np
 import os
 
+
 def convert_non_black_to_white(image_path):
     image = cv2.imread(image_path)
     if image is None:
         print("Could not open or find the image:", image_path)
         return None
-    
+
     # Set non-black pixels to white
     mask_non_black = np.any(image > [0, 0, 0], axis=-1)
     image[mask_non_black] = [255, 255, 255]
     return image
+
 
 def process_images(image1_path, image2_path, output_path):
     # Load and process image1
@@ -26,8 +28,12 @@ def process_images(image1_path, image2_path, output_path):
         return
 
     # Convert images to grayscale and then to binary
-    _, binary_image1 = cv2.threshold(cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY)
-    _, binary_image2 = cv2.threshold(cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY)
+    _, binary_image1 = cv2.threshold(
+        cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY
+    )
+    _, binary_image2 = cv2.threshold(
+        cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY), 127, 255, cv2.THRESH_BINARY
+    )
 
     # Identifying where the white pixels match
     matching_white = cv2.bitwise_and(binary_image1, binary_image2)
@@ -48,6 +54,8 @@ def process_images(image1_path, image2_path, output_path):
     # Save the result
     cv2.imwrite(output_path, colored_version)
     print("Processed image saved to:", output_path)
+
+
 # Read data from the CSV file
 # Get the directory of the script file
 script_dir = os.path.dirname(__file__)
@@ -56,11 +64,13 @@ script_dir = os.path.dirname(__file__)
 main_dir = os.path.dirname(script_dir)
 
 # Path to the CSV file
-csv_file_path = os.path.join(main_dir, 'output','periderm_length.csv')
+csv_file_path = os.path.join(main_dir, "output", "periderm_length.csv")
+
+
 def main():
-    folder1 = os.path.join(main_dir, 'output','Segmentation_upp_v15')
-    folder2 = os.path.join(main_dir, 'output','measurement')
-    output_folder = os.path.join(main_dir, 'output','seg_QC')
+    folder1 = os.path.join(main_dir, "output", "Segmentation_upp_v15")
+    folder2 = os.path.join(main_dir, "output", "measurement")
+    output_folder = os.path.join(main_dir, "output", "seg_QC")
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
@@ -73,12 +83,14 @@ def main():
         if os.path.isfile(image_path2):
             process_images(image_path1, image_path2, output_path)
 
+
 if __name__ == "__main__":
     main()
 
 import os
 import cv2
 import numpy as np
+
 
 def pad_image(image, ref_shape):
     h, w = image.shape[:2]
@@ -89,14 +101,15 @@ def pad_image(image, ref_shape):
     h_offset = (ref_h - h) // 2
     w_offset = (ref_w - w) // 2
 
-    padded_image[h_offset:h_offset + h, w_offset:w_offset + w] = image
+    padded_image[h_offset : h_offset + h, w_offset : w_offset + w] = image
     return padded_image
 
+
 def main():
-    folder1 = os.path.join(main_dir, 'nature_accession')
-    folder2 = os.path.join(main_dir, 'output','seg_QC')
-    output_folder1 = os.path.join(main_dir, 'output','Ori_pad')
-    output_folder2 = os.path.join(main_dir, 'output','Seg_pad')
+    folder1 = os.path.join(main_dir, "nature_accession_flip")
+    folder2 = os.path.join(main_dir, "output", "seg_QC")
+    output_folder1 = os.path.join(main_dir, "output", "Ori_pad")
+    output_folder2 = os.path.join(main_dir, "output", "Seg_pad")
 
     if not os.path.exists(output_folder1):
         os.makedirs(output_folder1)
@@ -120,13 +133,15 @@ def main():
             cv2.imwrite(os.path.join(output_folder1, filename), padded_image1)
             cv2.imwrite(os.path.join(output_folder2, filename), padded_image2)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
 
 import cv2
 import numpy as np
 import os
 from pathlib import Path
+
 
 def find_contours(image_path):
     # Read the image as grayscale
@@ -135,11 +150,12 @@ def find_contours(image_path):
     contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     leftmost_points = []
     for cnt in contours:
-        leftmost = tuple(cnt[cnt[:,:,0].argmin()].flatten())
+        leftmost = tuple(cnt[cnt[:, :, 0].argmin()].flatten())
         leftmost_points.append(leftmost)
     # Sort points top to bottom
     leftmost_points.sort(key=lambda x: x[1])
     return leftmost_points
+
 
 def crop_and_save(image_path, points, save_folder):
     # Read the image
@@ -152,19 +168,23 @@ def crop_and_save(image_path, points, save_folder):
         right = min(x + 1600, img.shape[1])
         top = max(y - 400, 0)
         bottom = min(y + 400, img.shape[0])
-        
+
         # Crop the region of interest
         roi = img[top:bottom, left:right]
-        
+
         # Ensure consistent size by padding if necessary
         if roi.shape[0] < 800 or roi.shape[1] < 2600:
             height_pad = max(800 - roi.shape[0], 0)
             width_pad = max(2600 - roi.shape[1], 0)
-            roi = cv2.copyMakeBorder(roi, 0, height_pad, 0, width_pad, cv2.BORDER_CONSTANT, value=[0, 0, 0])
-            
+            roi = cv2.copyMakeBorder(
+                roi, 0, height_pad, 0, width_pad, cv2.BORDER_CONSTANT, value=[0, 0, 0]
+            )
+
         cropped_images.append(roi)
         # Save the cropped image
-        cv2.imwrite(os.path.join(save_folder, f"{Path(image_path).stem}_{i+1}.png"), roi)
+        cv2.imwrite(
+            os.path.join(save_folder, f"{Path(image_path).stem}_{i+1}.png"), roi
+        )
     return cropped_images
 
 
@@ -173,15 +193,17 @@ def stack_and_save(images1, images2, img_name, save_folder):
         # Stack images vertically
         stacked = np.vstack((img1, img2))
         # Save the stacked image
-        cv2.imwrite(os.path.join(save_folder, f"{Path(img_name).stem}_{i+1}.png"), stacked)
+        cv2.imwrite(
+            os.path.join(save_folder, f"{Path(img_name).stem}_{i+1}.png"), stacked
+        )
 
 
 def main():
     # Define the paths to your folders
-    measurement_folder = os.path.join(main_dir, 'output','measurement')
-    seg_folder = os.path.join(main_dir, 'output','Seg_pad') 
-    nature_folder = os.path.join(main_dir, 'output','Ori_pad')
-    output_folder = os.path.join(main_dir, 'output','for_QC')
+    measurement_folder = os.path.join(main_dir, "output", "measurement")
+    seg_folder = os.path.join(main_dir, "output", "Seg_pad")
+    nature_folder = os.path.join(main_dir, "output", "Ori_pad")
+    output_folder = os.path.join(main_dir, "output", "for_QC")
 
     # Create output folder if it doesn't exist
     if not os.path.exists(output_folder):
@@ -190,20 +212,23 @@ def main():
     # Loop through images in measurement folder
     for img_name in os.listdir(measurement_folder):
         # Ensure we're working with image files only
-        if img_name.endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp')):
+        if img_name.endswith((".png", ".jpg", ".jpeg", ".tiff", ".bmp")):
             measurement_path = os.path.join(measurement_folder, img_name)
             seg_path = os.path.join(seg_folder, img_name)
             nature_path = os.path.join(nature_folder, img_name)
 
             # Find leftmost points of contours
             points = find_contours(measurement_path)
-            
+
             # Crop images based on points
             seg_crops = crop_and_save(seg_path, points, seg_folder)
             nature_crops = crop_and_save(nature_path, points, nature_folder)
-            
+
             # Stack cropped images and save
-            stack_and_save(nature_crops, seg_crops, img_name, output_folder)  # Added img_name here
+            stack_and_save(
+                nature_crops, seg_crops, img_name, output_folder
+            )  # Added img_name here
+
 
 if __name__ == "__main__":
     main()
